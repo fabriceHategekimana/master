@@ -1,0 +1,6 @@
+== Projets futures
+
+Il serait intéressant d'ajouter la notion de records dans et de polymorphisme de ligne dans l'usage des dataframes. Ceci augmenterai la flexibilité tout en assurant la constructions sécurisée de module ou librairies. Il serait aussi intéressant de discuter de la meilleurs manière d'implémenter la programmation orienté objet avec notre langage et apporter une notion de mutabilité. Pour finir, il serait intéressant de developper un langage complet qui puisse transpiler dans du code R et/ou créer des binaires.
+
+Nous avons élaboré un modèle de langage capable de manipuler des scalaires, des matrices et des vecteurs, ainsi qu'un module pour les réseaux de neurones. Nos résultats démontrent qu'il est possible de garantir un niveau de sécurité satisfaisant à l'aide de systèmes de types, malgré des défis rencontrés dans la représentation exhaustive des données sans rendre l'algorithme de vérification de type indécidable dans une certaine mesure. La plus part des notions et pratiques faite dans le domaines des sciences des données ont pu être importer dans un context statiquement typé et fonctionnelle ce qui est un encouragement pour le developpement de langages futures basés sur la programmation fonctionnelle.
+
