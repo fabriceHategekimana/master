@@ -5,10 +5,11 @@
 
 === Le système F
 
-Si le lambda calcul simplement typé apporte la notion de type au lambda calcul. Le système F apporte la notion de Générique sur ces types. Comme discuté dans le le lambda calcul simplement typé, la notion de type restreint fortement les oppérations faisable sur les types. On le sait, on aura aussi parfois besoin d'avoir des fonction plus générales pour la manipulation de type. 
+Si le lambda calcul simplement typé apporte la notion de type au lambda calcul. Le système F apporte la notion de Générique sur ces types. Comme discuté dans le le lambda calcul simplement typé, la notion de type restreint fortement les opérations faisable sur les types. On le sait, on aura aussi parfois besoin d'avoir des fonctions plus générales pour la manipulation de type. 
 
-Le système F, également connu sous le nom de polymorphisme de deuxième ordre, est une extension du lambda-calcul typé qui permet l'utilisation de types génériques. Il introduit la quantification universelle sur les types, ce qui permet de définir des fonctions et des structures de données polymorphes. Par exemple, une fonction dans le système F peut être définie pour opérer sur des tableaux de n'importe quel types sans avoir à redéfinir la fonction pour chaque type de tableau.
+Le système F, également connu sous le nom de polymorphisme de deuxième ordre, est une extension du lambda-calcul typé qui permet l'utilisation de types génériques. Il introduit la quantification universelle sur les types, ce qui permet de définir des fonctions et des structures de données polymorphes. Par exemple, une fonction dans le système F peut être définie pour opérer sur des tableaux de n'importe quel type sans avoir à redéfinir la fonction pour chaque type de tableau. 
 
+#Definition(
 $ #bnf(
   Prod(
     $t$,
@@ -48,10 +49,12 @@ $ #bnf(
     },
   ),
 ) $
+)
 
 
 ==== Évaluation
 
+#Definition([
 $ #proof-tree(eval("E-APP1", $t_1 t_2 --> t_1p t_2$, $t_1 --> t_1p$)) $ 
 $ #proof-tree(eval("E-APP2", $v_1 t_2 --> v_1 t_2p$, $t_2 --> t_2p$)) $ 
 $ #proof-tree(eval("E-APPABS", $(lambda x . t_12) v_2 --> [x\/v_2] t_12$)) $ 
@@ -59,15 +62,18 @@ $ #proof-tree(eval("E-APPABS", $(lambda x . t_12) v_2 --> [x\/v_2] t_12$)) $
 $ #proof-tree(eval("E-TAPP", $t_1 [T_2] --> t_1p [T_2]$, $t_1 --> t_1p$)) $
 
 $ #proof-tree(eval("E-TAPPTABS", $(lambda X . t_12) [T_2] --> [X \/ T_2] t_12$)) $
+])
 
 ==== Typage
 
+#Definition([
 $ #proof-tree(typing_c("T-VAR", "x : T", $ x:T in Gamma$)) $
 $ #proof-tree((typing_c("T-ABS", $lambda x:T_1 . t_2 : T_1 -> T_2$))) $
 $ #proof-tree(typing_c("T-APP", $t_1 t_2 : T_12 $, $Gamma tack.r : T_11 -> T_12$, $Gamma tack.r t_2 : T_11$)) $
 $ #proof-tree(typing_c("T-TABS", $lambda X . t_2 : forall X . T_2$, $Gamma, X tack.r t_2 : T_2$)) $
 $ #proof-tree(typing_c("T-TAPP", $t_1 [T_2] : [X\/T_2] T_12$)) $
+])
 
 L'ajout de génériques dans le typage est un avantage considérable car il accroît la réutilisabilité et la flexibilité du code tout en maintenant une forte sécurité des types. Cela permet aux développeurs de créer des bibliothèques et des outils plus abstraits et polyvalents, réduisant ainsi le besoin de redondance et minimisant les erreurs. En conséquence, le système F et les types génériques favorisent une programmation plus expressive et plus sûre, où les invariants de type sont vérifiés à la compilation, garantissant une robustesse accrue des applications.
 
-L'ajout de générique est aussi un élément crucial pour la définition de généricité pour des tableaux de taille différente. Nous voyons dans la suite comment ajouter cette notion.
+L'ajout de générique est aussi un élément crucial pour la définition de généricité pour des tableaux de taille différente. Nous verrons dans la suite comment ajouter cette notion. 

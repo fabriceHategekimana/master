@@ -15,6 +15,7 @@ Le lambda calcul est particulièrement important car il fournit un modèle minim
 
 ==== Syntaxe
 
+#Definition(
 $ #bnf(
   Prod(
     $e$,
@@ -33,12 +34,15 @@ $ #bnf(
     }
   ),    
 ) $
+)
 
 ==== Évaluation
 
+#Definition([
 $ #proof-tree(eval("E-APP1", $t_1 t_2 --> t_1p t_2$, $t_1 --> t_1p$)) $ 
 $ #proof-tree(eval("E-APP2", $v_1 t_2 --> v_1 t_2p$, $t_2 --> t_2p$)) $ 
 $ #proof-tree(eval("E-APPABS", $(lambda x . t_12) v_2 --> [x\/v_2] t_12$)) $ 
+])
 
 Le lambda calcul est un modèle de computation universel. Le lambda calcul fournit un cadre théorique qui peut simuler n'importe quel autre modèle de computation. Cela en fait un outil puissant pour comprendre les propriétés fondamentales des langages de programmation et pour prouver des théorèmes sur la computation.
 

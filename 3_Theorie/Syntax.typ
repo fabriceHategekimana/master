@@ -1,4 +1,5 @@
 #import "@preview/simplebnf:0.1.0": *
+#import "../src/module.typ" : *
 
 #pagebreak()
 
@@ -7,7 +8,8 @@
 Après avoir défini ses différents composants, nous allons maintenant faire une présentation complète du langage prototype système C3PO.
 
 
-#bnf(
+#Definition(
+bnf(
   Prod(
     $E$,
     annot: $sans("Expression")$,
@@ -50,7 +52,11 @@ Après avoir défini ses différents composants, nous allons maintenant faire un
       Or[$"E1" "or" "E2" $][*or*]
       Or[$"E1" + "E2" $][*plus*]
       Or[$"E1" :: "E2" $][*concat*]
-      Or[$"E1" == "E2" $][*equal*]
+      Or[$"E1" == "E2"$][*equal*]
+      Or[$"E1" < "E2"$][*lower*]
+      Or[$"E1" <= "E2"$][*lower or equal*]
+      Or[$"E1" > "E2"$][*greater*]
+      Or[$"E1" >= "E2"$][*greater or equal*]
     }
   ),
   Prod(
@@ -65,4 +71,5 @@ Après avoir défini ses différents composants, nous allons maintenant faire un
       Or[$Gamma tack.r "M" = "N" : sigma $][*equal_terms_of_type_in_context*]
     }
   )
+)
 )

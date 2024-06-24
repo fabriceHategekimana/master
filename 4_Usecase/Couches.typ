@@ -1,3 +1,5 @@
+#import "../src/module.typ" : *
+
 = librairie de réseaux de neurones
 
 Maintenant que nous avons été capable d'établire un formalisme pour la création et la manipulation de nos tableaux multidimensionnels. Nous pouvons nous lancer le défi de définir une librairie de réseaux de neuronnes et voir comment notre système de type peut nous aider à créer ce type de construction.
@@ -19,6 +21,7 @@ Chaque couche du réseau effectue donc une transformation linéaire suivie d'une
 
 On peut en premier lieu tenter de représenter une couche à l'aide de notre système de type. Une couche peut avoir N entrées et O sorties et peut être construite à l'aide d'une matrice $M_{"NxO"}$ et d'un vecteur v de taille O. On peut représenter ça comme une fonction qui prend en entrée une matrice et un vecteur puis retourn une fonction layer qui respecte ce protocole. Cette fonction prend un vecteur ligne et ne fera seulement que d'appliquer l'opération linéaire et retourner un vecteur colonne.
 
+#Exemple(
 ```R
 let NNLayer = func <N, O, T>(m: [N, [O, T]], b: [O, T]) {
   func <N, T>(v: [1, [N, T]]){
@@ -26,14 +29,17 @@ let NNLayer = func <N, O, T>(m: [N, [O, T]], b: [O, T]) {
   }
 } 
 ```
+)
 
 Pour éviter que les applications faites dans les réseaux de neuronnes restent linéaires (car ceci peut entraîner le fameux "vanishing gradient"), les fonction non linéaires ont étés inventée. Nous avons notamment la fonction sigmoïde, la fonction ReLU, etc. Dans notre cas, le langage prototype que nous avons à notre disposition ne peut pas émuler ce comportement. Nous allons donc faire une fonction d'activation faussement linéaire. Le but est juste de montrer que ce type d'opération peut être typé et donc protégé.
 
+#Exemple(
 ```R
 let p_sigmoid func<N, T>(v: [N, T]){
   transpose(V)
 }
 ```
+)
 
 La pseudo fonction d'activation "p_sigmoid" prendra un vecteur colonne et retourner a un vecteur ligne de même longeure qui sera passé à la prochaine couche. Ici on ne fera que de transposer le vecteur par soucis de simplicité.
 
