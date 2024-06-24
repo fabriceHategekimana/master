@@ -37,10 +37,10 @@ Les sciences des données et les statistiques jouent un rôle de plus en plus im
 
 #include "1_Intro/Context.typ" // DONE
 #include "1_Intro/Problématique.typ" //DONE
-#include "1_Intro/Solutions.typ" //DONE
+#include "1_Intro/Solutions.typ" // DONE
 #include "2_Etat_de_l_art/R.typ" 
-#include "2_Etat_de_l_art/Lambda_calculus.typ" //add language syntax
-#include "2_Etat_de_l_art/STLC.typ" //add language syntax
+#include "2_Etat_de_l_art/Lambda_calculus.typ" // DONE
+#include "2_Etat_de_l_art/STLC.typ" // DONE
 #include "2_Etat_de_l_art/Système_F.typ" // DONE
 
 #include "3_Theorie/C3PO.typ" // DONE

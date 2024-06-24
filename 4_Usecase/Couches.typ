@@ -1,6 +1,6 @@
 #import "../src/module.typ" : *
 
-= librairie de réseaux de neurones
+= Librairie de réseaux de neurones
 
 Maintenant que nous avons été capable d'établire un formalisme pour la création et la manipulation de nos tableaux multidimensionnels. Nous pouvons nous lancer le défi de définir une librairie de réseaux de neuronnes et voir comment notre système de type peut nous aider à créer ce type de construction.
 
