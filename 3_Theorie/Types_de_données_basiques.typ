@@ -16,34 +16,46 @@ Bien qu'on puisse travailler avec des tenseurs de plusieurs dimensions, on se re
 
 On peut partir de l'hypothèse qu'un simple tableau (array) est un vecteur. Ce qui va nous permettre de sauter directement aux matrices. 
 
-#Exemple(
-```r
+#Exemple()[exemplte de type Scalaire et tenseurs
+```
 int = Scalaire  
 [1, int] = Vecteur d'une ligne et d'une colonne  
 [2, [3, int]] = matrice de deux lignes et 3 colonnes  
 [3, [3, [3, bool]]] = tenseur de degré 3 cubique  
 ```
-)
+]
 
 L'un des éléments fondamentaux de l'algèbre linéaire sont les matrices. En effet, les concepts de statistiques, de probabilité et de mathématiques sont représentés à l'aide de calculs sur les matrices. Le vecteur de vecteurs est la façon la plus simple de représenter les matrices. En effet les matrices ont une forme rectangulaire au carré ce qui fait que les sous vecteurs sont tous de la même taille ce qui va faciliter la représentation par des types. 
 
 Une matrice:
 
-#Exemple($ mat(2, 2; 2, 2) $, caption: [C'est une matrice])
+#Exemple()[Simple matrice
+$ mat(2, 2; 2, 2) $
+]
 
 Peut-être représentée comme ceci: 
 
-#Exemple(
+#Exemple()[Représentation d'une simple matrice dans le langage système C3PO
 ```r
 [[2, 2], [2, 2]]
 ```
-)
+]
 
 Il n'y a pas d'évaluation intéressante pour une valeur. Le typage est simple:
 
-#Exemple(
-$ ([2, 2] : "[2, int]")/([[2, 2], [2, 2]] : "[2, [2, int]]") $
-)
+#Exemple()[Exemple de la sémantique de typage d'une matrice
+  $ #proof-tree(typing("T-ARR",
+    $Gamma tack.r "[[2, 2], [2, 2]]" : "[2, [2, int]]"$,
+    $"len([[2, 2], [2, 2]])" => "2"$,
+    $tack.r 2 "index"$,
+    typing("T-ARR",
+      $Gamma tack.r "[2, 2]" : "[2, int]"$,
+      $"len([2, 2])" => "2"$,
+      $tack.r 2 "index"$,
+      $Gamma tack.r 2 : "int"$
+    )
+)) $
+]
 
 Plus loin nous traitons la notion de broadcasting pas mal utilisé dans le domaine des sciences des données et vu comment celle-ci peut-être représentée avec notre système de type. Ici nous nous intéressons à des opérations simples et faciles à typer. 
 
@@ -51,151 +63,173 @@ Par la représentation actuelle des matrices il est facile de représenter les o
 
 Pour ce faire, nous devons définir la notion de mapping. Notre langage est tiré du lambda calculus et exploite donc les notions de programmation fonctionnelle. Nous n'utilisons pas de boucle mais nous avons la notion de récursivité. Imaginons que nous voulions incrémenter de 1 tout les éléments d'un tableau avec notre langage. Le système de type nous prévient de faire des opération erronées comme: 
 
-#Exemple(
-$ #proof-tree(typing("", "[1, 2, 3, 4] + 1 : ?")) $
-)
+#Exemple()[Opération non valide dans le système de type
+$ #proof-tree(typing("PLUS",
+  $"[1, 2, 3, 4] + 1 : ?"$,
+  $"[1, 2, 3, 4]" : "[4, int]"$,
+  $"1" : "int"$,
+)) $
+]
 
 Car l'opération d'addition de mon langage ne peut seulement se faire qu'entre deux entiers. Pour être en mesure d'appliquer le "+ 1" pour chaque membre, il va falloir itérer dessus à l'aide de la récursivité.
 
-#Exemple(
-```r
-let tableau_plus_1 = func<N>(tableau: [N, int]){
-    if tableau == [] then
-      []
-    else
-      [first(tableau) + 1] :: plus_1(rest(tableau))
-}
+#Exemple()[Fonction définie par l'utilisateur
+```R
+let tableau_plus_1: ([N, int]) -> [N, int] = 
+  func<N>(tableau: [N, int]){
+      if tableau == [] then
+        []
+      else
+        [first(tableau) + 1] :: plus_1(rest(tableau))
+  } in ...
 ```
-)
+]
 
 Notez qu'on utilise déjà les notions de généricité pour travailler avec des tableaux de taille différentes. On pourrait refaire la même chose avec pour l'opérateur multiplication pour les entiers et "and" et "or" pour les booléens, mais le plus facile serait de créer la fonction map qui va nous permettre de simplifier les futures opérations avec les vecteurs et les matrices. La fonction map pourrait être définie comme:
 
-#Exemple(
+#Exemple()[Création de la fonction map pour les tableaux
 ```r
-let map = func<T, U, N, V>(f: (T) -> U, tableau: [N, V]){
-    if tableau == [] then
-      []
-    else
-      [f(first(tableau))] :: (map(f, rest(tableau)))
-}
+let map: ((T) -> U, [N, T]) -> [N, U] = 
+  func<T, U, N>(f: (T) -> U, tableau: [N, V]) -> [N, U] {
+      if tableau == [] then
+        []
+      else
+        [f(first(tableau))] :: (map(f, rest(tableau)))
+  } in ...
 ```
-)
+]
 
 Comme l'application de "+ 1" n'est pas une fonction, on peut en créer une spécialisée:
 
-#Exemple(
+#Exemple()[Fonction unaire utilisable avec la fonction map
 ```r
-let plus_1 = func<>(num: int) { N + 1 }
+let plus_1: (int) -> int = 
+  func<>(num: int) -> int { N + 1 }
 ```
-)
+]
 
 On est donc en mesure d'appeler la fonction de mapping avec cette fonction: 
 
-#Exemple(
+#Exemple()[Évaluation de l'addition d'un tableau avec un scalaire à l'aide des fonctions map et plus_1
 $ #proof-tree(eval("", "map(plus_1, [1, 2, 3, 4]) => [2, 3, 4, 5]", "")) $
-)
+]
 
-#Exemple(
+#Exemple()[Typage de l'addition d'un tableau avec un scalaire à l'aide des fonctions map et plus_1
+
 $ #proof-tree(typing("", "map(plus_1, [1, 2, 3, 4]) : [4, int]")) $
-)
+]
 
 Cette expression est correctement typée et donne [2, 3, 4, 5]. 
 
 Si nous voulons faire le même type d'opération sur les matrices (donc des tableaux de tableau), il va nous falloir définir une fonction de mappage d'un degré plus haut. En s'appuyant sur la définition de notre fonction map préalablement établie, on peut créer notre fonction map2 comme suite: 
 
-#Exemple(
+#Exemple()[Fonction map pour une matrice
 ```r
-let map2 = func<>(f: (T) -> U, mat: [N, [M, V]]){
-    if mat == [] then
-      []
-    else
-      [map(f, first(mat))] :: (map2(f, rest(mat)))
-}
+let map2: ((T) -> U, [N, [M, V]]) -> [N, [M, V]] =
+  func<>(f: (T) -> U, mat: [N, [M, V]]) -> [N, [M, V]]{
+      if mat == [] then
+        []
+      else
+        [map(f, first(mat))] :: (map2(f, rest(mat)))
+  }
 ```
-)
+]
 
 L'avantage de la définition choisie des tenseurs se présente dans la similarité entre les deux fonctions "map" et "map2". Faire la fonction map3 donnerait un résultat similaire, il suffirait juste de faire appel à "map3" à la place de "map2" et de "map2" à la place de "map1". Malheureusement notre langage ne supporte pas assez de fonctionnalité pour faire un mapping généralisé pour tout les tenseurs. 
 
 Une autre chose intéressante serait de pouvoir appliquer des opérations entres différents tenseurs. En algèbre linéaire, il faut que les matrices aient la même forme. Notre système de type peut assurer ça. On verra un peu plus loin le cas particulier du broadcasting. On aimerait être en mesure d'additionner ou de multiplier des matrices de même forme. Comme vu tout à l'heure, faire des calculs en utilisant directement l'opérateur ne marche pas et est prévenu par notre système de type: 
 
-#Exemple(
+#Exemple()[Comment faire une addition entre deux tableaux ?
 $ #proof-tree(typing("", "[1, 2, 3, 4] + [4, 3, 2, 1] : ?")) $
-)
+]
 
 Une solution serait d'appliquer la notion de mapping mais pour les fonctions binaires (à deux opérateurs). Il y aurait un moyen de réutiliser les fonctions map définies précédemment à l'aide de tuple, mais comme notre langage ne l'implémente pas, on se contentera de simplement créer des des fonctions binaires et une fonction "map_op". 
 La fonction map_op est assez simple à réaliser, il suffit d'augmenter ce qu'on a déjà:
 
-#Definition(
+#Definition()[Fonction pour appliquer une opération sur deux tableaux
 ```r
-let map_op = func<T, U, N, V, M, W>(f: (T, T) -> U, tableau1: [N, V], tableau2: [M, W]) {
-    if and(tableau1 == [], tableau2 == []) then
-      []
-    else
-    (f(first(tableau1), first(tableau2))) :: (map_op(f, rest(tableau1), rest(tableau2)))
-}
-```, caption: "Définition de la fonction map_op")
+let map_op: ((T, T) -> U, [M, T], [M, T]) -> [M, U] =
+  func<T, U, M>(
+    f: (T, T) -> U,
+    tableau1: [N, V],
+    tableau2: [M, W]) -> [M, U] {
+      if and(tableau1 == [], tableau2 == []) then
+        []
+      else
+      (f(first(tableau1), first(tableau2))) :: (map_op(f, rest(tableau1), rest(tableau2)))
+  }
+```
+]
 
 On part du principe que la fonction "f" prend deux éléments du même type "T", mais on pourrait la généraliser davantage. On peut alors définir des fonctions binaires à l'aide des opérateurs de base. 
 
-#Exemple(
+#Exemple()[Fonction d'addition à partir de l'opérateur d'addition
 ```r
-let plus = func<>(a: int, b: int){
-	a + b
-}
+let plus: (int, int) -> int = 
+  func<>(a: int, b: int) -> int {
+    a + b
+  }
 ```
-)
+]
 
-#Exemple(
+#Exemple()[Fonction de multiplication à partir de l'opérateur de multiplication
 ```r
-let mul = func<>(a: int, b: int){
-	a * b
-}
+let mul: (int, int) -> int =
+  func<>(a: int, b: int) -> int {
+    a * b
+  }
 ```
-)
+]
 
-#Exemple(
+#Exemple()[Fonction band à partir de l'opérateur and
 ```r
-let band = func<>(a: bool, b: bool){
-	a and b
-}
+let band: (bool, bool) -> bool = 
+  func<>(a: bool, b: bool) -> bool {
+    a and b
+  }
 ```
-)
+]
 
-#Exemple(
+#Exemple()[Fonction bor à partir de l'opérateur or
 ```r
-let bor = func<>(a: bool, b: bool){
-	a or b
-}
+let bor: (bool, bool) -> bool =
+  func<>(a: bool, b: bool) -> bool {
+    a or b
+  }
 ```
-)
+]
+
 
 L'addition entre deux vecteurs donnerait:
 
-map_op(plus, [1, 2, 3, 4], [4, 3, 2, 1]) => [5, 5, 5, 5]
+#Exemple()[Addition entre deux tableaux avec les fonctions map_op et plus
+  map_op(plus, [1, 2, 3, 4], [4, 3, 2, 1]) => [5, 5, 5, 5]
+]
 
-Pour faire la même chose avec les matrice, il suffirait de reproduire "map_op" en "map_op2".
+Pour faire la même chose avec les matrice, il suffirait de reproduire "map_op" en "map_op2". 
 
-#Exemple(
+#Exemple()[Opération pour les matrices
 ```r
-let map_op2 = func<T, U, N, V, M, W>(f: (T, T) -> U, tableau1: [N, V], tableau2: [M, W]) {
-	(map_op(first(tableau1), first(tableau2))) :: (map_op2(f, rest(tableau1), rest(tableau2)))
-}
+let map_op2: ((T, T) -> U, [M, [N, T]], [M, [N, T]]) -> [M, [N, U]] = 
+  func<T, U, M, N>(f: (T, T) -> U, tableau1: [N, T], tableau2: [N, T]) -> [N, U] {
+    (map_op(first(tableau1), first(tableau2))) :: (map_op2(f, rest(tableau1), rest(tableau2)))
+  }
 ```
-)
+]
 
 Ici encore, il suffit juste de reprendre la fonction "map_op" et de remplacer toutes les instance de "map_op" en "map_op2". Nous pouvons maintenant utiliser les opérations de bases sur les matrices.
 
-#Exemple(
-```r
-map_op2(minus, [[2, 2], [2, 2]], [[1, 1], [1, 1]]) => [[1, 1], [1, 1]]
-```
-)
+#Exemple()[Évaluation
+#proof-tree(typing("",
+  $Gamma tack.r "map_op2<int, int, 2, 2>(minus, [[2, 2], [2, 2]], [[1, 1], [1, 1]]) : [[1, 1], [1, 1]]"$,
+))
+]
 
 Nous avons été capable de représenter les opérateur de base ("+", "\*", "and", "or") entre un scalaire et un vecteur, un scalaire et une matrice ainsi qu'un vecteur avec un vecteur et une matrice avec une matrice. Les opérations entre matrices et vecteurs sont en général traitées par le broadcasting. Nous laissons ce sujet pour la suite. 
 
 Nous pouvons voir un exemple avec la librairie numpy de python: 
 
-#Exemple(
+#Exemple()[Broadcasting avec numpy
 ```python  
 import numpy as np  
   
@@ -208,11 +242,12 @@ res1 = np.dot(col, lin)  = error
 = ValueError: shapes (4,) and (1,4)   
 = not aligned: 4 (dim 0) != 1 (dim 0)  
 ```  
-)
+]
+
 
 Un autre exemple avec la librairie de pytorch:
   
-#Exemple(
+#Exemple()[Broadcasting avec pytorch 1
 ```python  
 import torch  
   
@@ -225,9 +260,9 @@ res2 = torch.dot(col, lin)  = error
 = RuntimeError: 1D tensors expected,  
 = but got 2D and 1D tensors  
 ```  
-)
+]
   
-#Exemple(
+#Exemple()[Broadcasting avec pytorch 2
 ```python  
 import torch  
   
@@ -240,77 +275,135 @@ res2 = col + lin  = tensor([[5, 5, 5, 5]])
 print("res1:", res1)  
 print("res2:", res2)  
 ```  
-)
+]
 
 Ce qui va nous intéresser maintenant est l'utilisation du produit matriciel. C'est une propriété fondamentale de l'algèbre linéaire qui nous servira à l'établissement de la librairie de réseaux de neurones. Si nous avons deux matrice $A_("MxP")$ et $B_("PxN")$ le produit matriciel A \* B donnera $C_("MxN")$. Par exemple: 
 
-#Exemple(
-$ mat(1, 2, 0; 4, 3, -1) * mat(5, 1; 2, 3; 3, 4) = mat(9, 7; 23, 9) $
-)
+#Exemple()[Produit matriciel $"A" dot.op "B"$
+$ mat(1, 2, 0; 4, 3, -1) dot.op mat(5, 1; 2, 3; 3, 4) = mat(9, 7; 23, 9) $
+]
 
-#Exemple(
-$ mat(5, 1; 2, 3; 3, 4) * mat(1, 2, 0; 4, 3, -1)  = mat(9, 13, -1; 14, 13, -3; 19, 18, -4) $
-)
+#Exemple()[Produit matriciel $"B" dot.op "A"$
+$ mat(5, 1; 2, 3; 3, 4) dot.op mat(1, 2, 0; 4, 3, -1)  = mat(9, 13, -1; 14, 13, -3; 19, 18, -4) $
+]
 
 La signature de cette fonction est simple à représenter:
-#Exemple(
+
+#Exemple()[Signature générale du produit matriciel
 ```r
-func<M, P, N>(A: [M, [P, int]], B: [P, [N, int]]) : [M, [N, int]]
+func<M, P, N>(A: [M, [P, int]], B: [P, [N, int]]) -> [M, [N, int]]
 ```
-)
+]
 
 Pour définir le corps de la fonctions, il nous faudrait developper d'autres fonctions comme la transposition (car le produit matriciel est un produit ligne colonne) et modifier map_op pour être en mesure d'avoir des opérateurs qui prennent des type différent (signature (T1, T2) -> T3 ). Par soucis de simplicité, on ne le définira pas ici.
 
-/*
-On choisi ici de se limiter à la multiplication entre entires. Le corps de cette fonction appliquerait tout ce qu'on a vu jusqu'à présent:
-
-let dot = func<M, P, N>(A: [M, [P, int]], B: [P, [N, int]]){
-	let Bp = transpose(B) in {
-		map_op2(, column)
-	}
+#Exemple()[Création du corps de la fonction dot
+```r
+let reduce_op : <T, U, N>((T, T) -> U, [N, T], [N, T]) = 
+  func<T, N>(op: (T, T) -> U, a: [N, T], b: [N, T]) -> U {
+     If and(a == [], b == []) then
+        []
+     else
+        prepend(op(first(a), first(b)), reduce(op, rest(a), rest(b))
+      end
 }
-*/
 
+let scalar_dot : <N, T>([N, T], [N, T]) -> T = 
+  func<N, T>(a: [N, T], b: [N, T]) -> T {
+     reduce(plus, map_op(mul, a, b))
+}
 
-La concatenation fait aussi parti des fonctionnalités utilisées en sciences des données. Cette opération se fait aussi affecter par le broadcasting (mais ce n'est pas le sujet de ce chapitre). On établit qu'on ne peut concatener que si les MDA sont de même dimension. On admet que la concaténation fait toujours une addition sur la droite
-  
-#Exemple(
+let right_dot : <M, N, T>(B: [M, [N, T]], a: [N, T]) = 
+  func<M, N, T>(B: [M, [N, T]], a: [N, T]) {
+   map_op(scalar_dot, a, B)
+}
+
+let dot : <M, N, T>(A: [M, [N, T]], B: [M, [N, T]]) = 
+  func<M, N, T>(A: [M, [N, T]], B: [M, [N, T]]) {
+    map_op(right_dot, transpose(B), A)
+}
 ```
-concat(1, 1) faux car concat(int, int)  
-concat([1, 2], 1) faux car concat([2, 2], int)  
-concat([1, 2], [3]) juste car concat([2, int], [1, int]) -] [3, int]  
-concat([[1], [2]], [3, 4]) faux car concat([2, [1, int]], [2, int])  
-concat([[1], [2]], [[3, 4], [5, 6]]) vrai car concat([2, [1, int]], [2, [2, int]]) -] [2, [3, int]]  
-```
-)
+]
 
-Avec ces restrictions, nous sommes en mesure de représenter le typage concrèt de cette fonctions. (Doit faire l'implémentation de la fonction de concatenation).
+Pour faire le produit matriciel (ici appellé dot) on doit utiliser la fonction de transposition ainsi que les fonctions définis right_dot, scalar_dot et la méthode reduce qu'on défini pour ce cas d'usage. Ainsi on va faire une boucle entre chaque ligne de la matrice de gauche et pour chacune de ces ligne faire une boucle avec les colonnes de la matrice de droit en faisant simplement la some du produit, élément par élément des deux tableaux.
 
-// TODO implémentation du corps de concat
+Avec ces restrictions, nous sommes en mesure de représenter le typage concrèt de cette fonctions. 
 
 Dans le domaine des sciences des données, nous avons aussi un ensemble de constructeures que nous pouvons utiliser. Notre langage ne nous permet pas la génération de nombre aléatoire donc on aura pas de générateur de matrice avec des éléments aléatoire bien que cela est assez pratique dans la création de réseaux de neurones.
 
-#Exemple(
+#Exemple()[Constructeurs de matrice
 ```r
-let matrix = func <T, N1, N2>(dim1: N1, dim2: N2, value: T) -> [N1, [N2, T]]  
-let zeros = func <N1, N2>(dim1: N1, dim2: N2) -> [N1, [N2, int]]  
-let ones = func <N1, N2>(dim1: N1, dim2: N2) -> [N1, [N2, int]]  
-let trues = func <N1, N2>(dim1: N1, dim2: N2) -> [N1, [N2, int]]  
-let falses = func <N1, N2>(dim1: N1, dim2: N2) -> [N1, [N2, int]]  
-```
-)
+let vector: <T,M>(int, T) -> [M, T] =
+  func <T, M>(len: int, value: T) -> [M, T] {
+    if len == 0 then
+      []
+    else
+      [value] :: vector(len-1, value)
+  }
+    
+let matrix: <T, M, N>(int, int, T) -> [M, [N, T]] =
+  func <int, M, N>(dim1: int, dim2: int, value: T) {
+    if dim1 == 0 then
+      []
+    else
+     vector(dim2, value) :: matrix(dim1-1, value)
+  } in 
 
-#Exemple(
-```r
-let length = func <T, N1, N2>(m: [[T, N2], N1]) -> int  
-let shape = func <T, N1, N2>(m: [[T, N2], N1]) -> (int, int)  
-let eltype = func <T, N1, N2>(m: [[T, N2], N1]) -> T 
-let fill = func <T, N1, N2>(m: [[T, N2], N1], e: T) -> [[T, N2], N1]  
-let linearize = func <T, N1, N2>(m1: [[T, N2], N1]) -> [T, N1*N2]  
-let reshape = func <T1, T2, T3>(m1: [[T1, N2], N1], shape: T2) -> T3  
+let zeros: (int, int) -> [M, [N, int]] =
+  func <>(dim1: int, dim2: int) -> int {
+    matrix(N1, N2, 0)
+  } in
+
+let ones: (int, int) -> [M, [N, int]] = 
+  func <>(dim1: int, dim2: int) -> [M, [N, int]]{
+    matrix(dim1, dim2, 1)
+  } in
+
+let trues: (int, int) -> [M, [N, bool]] =
+  func <M, N>(dim1: int, dim2: int) -> [M, [N, bool]] {
+    matrix(dim1, dim2, true)
+  } in
+
+let falses: (int, int) -> [M, [N, bool]] =
+  func <M, N>(dim1: int, dim2: int) -> [M, [N, bool]] {
+    matrix(dim1, dim2, false)
+  }
 ```
-)
-  
+]
+
+#Exemple()[Autres fonctions utilitaires pour les matrices
+```r
+let length: <M, N, T>([M, [N, T]]) -> int = 
+  func <M, N, T>(m: [M, [N, T]]) -> int {
+    M * N
+} in
+
+let fill: <M, N, T>([M, [N, T]], T) -> [M, [N, T]] =
+  func <M, N, T>(m: [M, [N, T]], value: T) -> [N1, [N2, T]] {
+    matrix(M, N, value)
+} in
+
+let reduce : <T, U, N>((T) -> U, [N, T]) = 
+  func<T, N>(op: (T, T) -> U, a: [N, T], b: [N, T]) -> U {
+     If and(a == [], b == []) then
+        []
+     else
+        prepend(op(first(a), first(b)), reduce(op, rest(a), rest(b))
+      end
+} in
+
+let concat: <M, T, N>([M, T], [N, T]) -> [M+N, T] = 
+func <M, T, N>(m1: [M, T], m2: [N, T]) -> [M+N, T] {
+  m1 :: m2
+}
+
+let linearize: <M, N, T, O>([M, [N, T]]) -> [O, T] =
+  func <M, N, T, O>(m: [M, [N, T]]) -> [O, T] {
+    reduce(concat, m)
+  }
+```
+]
+
 En algèbre linéaire on est capable de faire un produit matriciel entre des vecteurs et des matrices un produit matriciel entre un vecteur ligne à gauche une matrice à droite aussi donner un vecteur colonne le produit matriciel entre une matrice à gauche et un vecteur colonne à droite va donner un vecteur à ligne. 
 
 Le souci est que la définition actuelle du vecteur est un tableau d'une seule ligne mais la définition du produit matricielle demande l'implémentation de deux matrices. 

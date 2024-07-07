@@ -1,19 +1,25 @@
 #import "@preview/curryst:0.3.0": rule, proof-tree
+#import "@preview/ctheorems:1.1.2": *
+#set par(first-line-indent: 2em)
+#import "@preview/indenta:0.0.3": fix-indent
+#show: fix-indent()
 
-#let Exemple(content, caption: "") = figure(
-      content, 
-      caption: [#caption], 
-      kind: "Exemple", 
-      supplement: [*Exemple*]
-    )
 
-#let Definition(content, caption: "") = figure(
-      content, 
-      caption: [#caption], 
-      kind: "Définition", 
-      supplement: [*Définition*]
-    )
+#show: thmrules
 
+#let Definition = thmbox(
+  "definition",
+  "Definition",
+  base_level: 1, 
+  stroke: rgb("#e94845") + 1pt
+)
+
+#let Exemple = thmbox(
+  "exemple",
+  "Exemple",
+  base_level: 1, 
+  stroke: rgb("#e94845") + 1pt
+)
 
 #let type_context(body, ..entrees) = {
   let entries = entrees.pos().join(", ")

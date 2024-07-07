@@ -13,9 +13,7 @@ Le lambda calcul est un formalisme mathématique développé par Alonzo Church d
 
 Le lambda calcul est particulièrement important car il fournit un modèle minimaliste et élégant pour la computation, où toutes les opérations peuvent être réduites à l'application de fonctions à des arguments. Il se compose de trois éléments de base : les variables, les abstractions (qui définissent des fonctions), et les applications (qui appliquent des fonctions à des arguments). Malgré sa simplicité, le lambda calcul est Turing-complet, ce qui signifie qu'il peut exprimer toute computation réalisable par une machine de Turing.
 
-==== Syntaxe
-
-#Definition(
+#Definition[Synaxe du lambda calcul
 $ #bnf(
   Prod(
     $e$,
@@ -33,16 +31,14 @@ $ #bnf(
       Or[$λ x. e$][_abstraction value_]
     }
   ),    
-) $
-)
+) $,
+]
 
-==== Évaluation
-
-#Definition([
+#Definition[Évaluation du lambda calcul
 $ #proof-tree(eval("E-APP1", $t_1 t_2 --> t_1p t_2$, $t_1 --> t_1p$)) $ 
 $ #proof-tree(eval("E-APP2", $v_1 t_2 --> v_1 t_2p$, $t_2 --> t_2p$)) $ 
 $ #proof-tree(eval("E-APPABS", $(lambda x . t_12) v_2 --> [x\/v_2] t_12$)) $ 
-])
+]
 
 Le lambda calcul est un modèle de computation universel. Le lambda calcul fournit un cadre théorique qui peut simuler n'importe quel autre modèle de computation. Cela en fait un outil puissant pour comprendre les propriétés fondamentales des langages de programmation et pour prouver des théorèmes sur la computation.
 

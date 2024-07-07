@@ -1,3 +1,5 @@
+#pagebreak()
+
 = Autres concepts <autre>
 
 Dans le cadre de l'évolution de notre langage de programmation, nous exprimons un fort intérêt pour l'ajout de nouvelles fonctionnalités qui, bien que non discutées en détail ici, méritent une attention particulière. Notre focus principal a été sur les tableaux multidimensionnels et le typage des opérations associées, cependant, d'autres extensions potentiellement bénéfiques pourraient également être envisagées. Ces fonctionnalités supplémentaires s'inscriraient parfaitement dans la vision d'un futur projet de développement d'un système de types inspiré de R, reflétant sa philosophie de flexibilité et de puissance dans la manipulation de données. En intégrant ces nouvelles capacités, nous pourrions offrir une robustesse accrue et une expressivité améliorée à notre langage, alignant ainsi notre outil avec les attentes et les besoins des utilisateurs avancés dans des domaines variés tels que les statistiques, la science des données et l'analyse quantitative.

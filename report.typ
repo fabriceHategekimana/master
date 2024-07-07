@@ -22,6 +22,7 @@
 #pagebreak()
 
 #align(horizon)[
+
 == Abstract
 
 Les sciences des données et les statistiques jouent un rôle de plus en plus important dans nos sociétés. Cependant, les langages de programmation actuels ne sont pas entièrement adaptés à ce nouveau paradigme de développement. L'objectif de cette recherche est de développer un système de type statique permettant de manipuler des tableaux multidimensionnels pour les sciences des données. La méthodologie consiste à créer un mini-langage capable de gérer les tableaux multidimensionnels, en utilisant des génériques et des types dépendants. Nous avons réussi à développer un modèle simple d'un langage capable de réaliser des opérations sur des scalaires, des matrices et des vecteurs, ainsi qu'un module pour les réseaux de neurones. Les résultats montrent qu'il est possible d'assurer un niveau satisfaisant de sécurité avec les types, bien que nous rencontrions des limitations en termes de représentation complète sans rendre l'algorithme de vérification de type indécidable à un certain degré.
@@ -31,43 +32,34 @@ Les sciences des données et les statistiques jouent un rôle de plus en plus im
 
 #outline(depth: 2, indent: 8% - 2em)
 
-// TODO : ajouter le context à la sémantique d'évaluation
-// TODO : ajouter des références
-// TODO : Vérifier les "Enfin"
+#include "1_Intro/Context.typ"
+#include "1_Intro/Problématique.typ"
+#include "1_Intro/Solutions.typ"
+#include "2_Etat_de_l_art/R.typ"
+#include "2_Etat_de_l_art/Lambda_calculus.typ"
+#include "2_Etat_de_l_art/STLC.typ"
+#include "2_Etat_de_l_art/Système_F.typ"
 
-#include "1_Intro/Context.typ" // DONE
-#include "1_Intro/Problématique.typ" //DONE
-#include "1_Intro/Solutions.typ" // DONE
-#include "2_Etat_de_l_art/R.typ" 
-#include "2_Etat_de_l_art/Lambda_calculus.typ" // DONE
-#include "2_Etat_de_l_art/STLC.typ" // DONE
-#include "2_Etat_de_l_art/Système_F.typ" // DONE
+#include "3_Theorie/C3PO.typ"
+#include "3_Theorie/Syntax.typ"
+#include "3_Theorie/Évaluation.typ"
+#include "3_Theorie/Typage.typ"
 
-#include "3_Theorie/C3PO.typ" // DONE
-#include "3_Theorie/Syntax.typ" // DONE
-#include "3_Theorie/Évaluation.typ" // DONE
-#include "3_Theorie/Typage.typ" // DONE
-#include "3_Theorie/Exemples.typ" // TODO
+#include "3_Theorie/Intro.typ"
+#include "3_Theorie/Types_de_données_basiques.typ"
+#include "3_Theorie/Broadcasting.typ"
 
-#include "3_Theorie/Intro.typ" // DONE 
-#include "3_Theorie/Types_de_données_basiques.typ" // Almost DONE
-#include "3_Theorie/Broadcasting.typ" // DONE
-#include "3_Theorie/Type_embeding.typ" // DONE
-#include "3_Theorie/Autres_concepts.typ" // DONE
+#include "5_Implémentation/Prolog.typ"
 
-#include "5_Implémentation/Prolog.typ" // TODO
-#include "5_Implémentation/Évaluation.typ" // TODO
-
-#include "4_Usecase/Couches.typ" // TODO 
-#include "4_Usecase/Réseaux_de_neurones.typ" // TODO
-#include "4_Usecase/Backpropagation.typ" // TODO
+#include "4_Usecase/Couches.typ"
+#include "4_Usecase/Réseaux_de_neurones.typ"
 
 #include "6_Conclusion/Synthèse.typ"
-#include "6_Conclusion/Succès.typ" // DONE
-#include "6_Conclusion/Défauts.typ" // DONE
+#include "6_Conclusion/Succès.typ"
+#include "6_Conclusion/Défauts.typ"
 #include "6_Conclusion/Projet_futures.typ"
 
-= Références
+#pagebreak()
 
 = Remerciements
 
@@ -77,8 +69,10 @@ Tout d'abord, je remercie sincèrement Monsieur Didier Buchs, mon directeur de t
 
 Je suis également reconnaissant envers Dr. Damien Morard et Mr. Aurélien Coet, les membres du laboratoire SMV qui m'ont accompagné dans ce projet. Leur expertise, leur soutien moral et leurs échanges enrichissants on su me donner un cadre stable où évoluer. Leur camaraderie a rendu cette expérience de recherche plus agréable et stimulante.
 
-Un grand merci à Mr. Alexis Turcott et Mr. Jan Vitek, membres de l'université de Northeastern University, pour leur travail de recherche sur le langage R et l'élaboration d'un système de type. Leurs suggestions constructives et leurs encouragements pour ce projet de recherche. 
+Un grand merci à Mr. Alexi Turcott et Mr. Jan Vitek, membres de l'université de Northeastern University, pour leur travail de recherche sur le langage R et l'élaboration d'un système de type. Leurs suggestions constructives et leurs encouragements pour ce projet de recherche. 
 
 Je n'oublie pas Mr. John Coene, ainsi que la communauté des utilisateurs de R à Genève pour leur aide précieuse à comprendre les besoin actuels des statisticiens, scientifiques des données et constructeur de librairies. Leur expertise technique et leur feedback ont été d'une grande aide à la réalisation du design du langage.
 
 À tous, je vous exprime ma profonde reconnaissance et mes remerciements les plus sincères.
+
+#bibliography("works.bib")
