@@ -42,79 +42,36 @@ Le système R est juste une première tentative pour amener des éléments plus 
 Les nombre entiers positifs `int` vont nous permettre d'avoir une base minimum pour faire des calculs. C'est pourquoi nous ajoutons les opérateurs d'addition et de multiplication pour ne pas tomber sur des nombres à virgules ou des nombres négatifs. 
 
 #Definition()[Le type de base "int"
-$ #proof-tree(eval("NUM", 
-    $Delta tack.r "n" --> "n"$)) $
-$ #proof-tree(eval("PLUS", 
-    $Delta tack.r "E1" + "E2" --> "E3"$, 
-    $Delta tack.r "E1" --> "E1p"$, 
-    $Delta tack.r "E2" --> "E2p"$, 
-    $Delta tack.r "E1p" + "E2p" --> "E3"$)) $
-$ #proof-tree(eval("TIME", 
-    $Delta tack.r "E1" * "E2" --> "E3"$, 
-    $Delta tack.r "E1" --> "E1p"$, 
-    $Delta tack.r "E2" --> "E2p"$, 
-    $Delta tack.r "E1p" * "E2p" --> "E3"$)) $
+#NUM
+#PLUS
+#TIME
 ]
 
 
 Les booléens se comportent aussi de la même façon que dans les langages de programmations classiques comme python. Ils s'appuient aussi sur l'arithmétique classique.
 
 #Definition([Le type de base "bool"
-$ #proof-tree(eval("BOOL-T", 
-    $Delta tack.r "true" --> "true"$)) $
-$ #proof-tree(eval("BOOL-F", 
-    $Delta tack.r "false" --> "false"$)) $
-$ #proof-tree(eval("AND", 
-    $Delta tack.r "E1" "and" "E2" --> "E3"$,
-    $Delta tack.r "E1" --> "E1p"$, 
-    $Delta tack.r "E2" --> "E2p"$, 
-    $Delta tack.r "E1" sect "E2" --> "E3"$)) $
-$ #proof-tree(eval("OR", 
-    $Delta tack.r "E1" "or" "E2" --> "E3"$, 
-    $Delta tack.r "E1" --> "E1p"$, 
-    $Delta tack.r "E2" --> "E2p"$, 
-    $Delta tack.r "E1" union "E2" --> "E3"$)) $
+#BOOL_T
+#BOOL_F
+#AND
+#OR
 ])
 
 Les booléens vont nous permettre d'ajouter de la logique à notre code et à simplifier le traitement conditionnel impliqué par le contrôle de flux `if...then..else` qui est un opérateur ternaire. Ce choix nous permet d'avoir une structure régulière capable d'émuler des `else if` par imbrication de contrôle de flux `ìf...then...else`. 
  
 #Definition([Les conditions
-$ #proof-tree(eval("IF-T", 
-    $Delta tack.r "if" "E1" "then" "E2" "else" "E3" --> "E2"$, 
-    $Delta tack.r "E1" --> "true"$)) $
-$ #proof-tree(eval("IF-F", 
-    $Delta tack.r "if" "E1" "then" "E2" "else" "E3" --> "E3"$, 
-    $Delta tack.r "E1" --> "false"$)) $
+#IF_T
+#IF_F
 ])
 
 Il nous faut aussi des opérateurs de base pour faire des testes logique. Ces opérateurs marcherons principalement pour les entiers car c'est le cas qui nous intresse le plus. L'opérateur d'égalité marchera pour tout les types (primitifs ou structure) du moment que les deux membre de l'opération sont du même type. Il est à noté qu'on pourra utiliser les opérateurs "and" ou "or" pour créer des combinaisons de propriété plus complexes.
 
 #Definition([Les opérateurs de bases pour les conditions
-$ #proof-tree(eval("EQ", 
-    $Delta tack.r "E1" == "E2" --> "E3"$, 
-    $Delta tack.r "E1" --> "E1p"$, 
-    $Delta tack.r "E2" --> "E2p"$, 
-    $Delta tack.r "E1p" == "E2p" --> "E3"$)) $
-$ #proof-tree(eval("LOW", 
-    $Delta tack.r "E1" < "E2" --> "E3"$, 
-    $Delta tack.r "E1" --> "E1p"$, 
-    $Delta tack.r "E2" --> "E2p"$, 
-    $Delta tack.r "E1p" < "E2p" --> "E3"$)) $
-$ #proof-tree(eval("GRT", 
-    $Delta tack.r "E1" > "E2" --> "E3"$, 
-    $Delta tack.r "E1" --> "E1p"$, 
-    $Delta tack.r "E2" --> "E2p"$, 
-    $Delta tack.r "E1p" > "E2p" --> "E3"$)) $
-$ #proof-tree(eval("LOW-EQ", 
-    $Delta tack.r "E1" <= "E2" --> "E3"$, 
-    $Delta tack.r "E1" --> "E1p"$, 
-    $Delta tack.r "E2" --> "E2p"$, 
-    $Delta tack.r "E1p" <= "E2p" --> "E3"$)) $
-$ #proof-tree(eval("GRT-EQ", 
-    $Delta tack.r "E1" >= "E2" --> "E3"$, 
-    $Delta tack.r "E1" --> "E1p"$, 
-    $Delta tack.r "E2" --> "E2p"$, 
-    $Delta tack.r "E1p" >= "E2p" --> "E3"$)) $
+#EQ
+#LOW
+#GRT
+#LOW_EQ
+#GRT_EQ
 ])
 
 On a maintenant un noyau qui nous donne la capacité de faire des opérations sur des ensembles de valeurs définis. Ce qui va nous permettre de traiter avec des opérations plus complexes. 
@@ -126,15 +83,8 @@ Bien que le système R nous donne plus de souplesse et de flexibilité dans nos 
 Il nous faut aussi une règle qui permet de vérifier que l'appel d'une variable est bel et bien valide, à savoir, que nous pouvons faire référence à une variable uniquement si elle a été préalablement définit à l'aide du mot clé "let". Nous pouvont faire ceci en créant la règle "VAR".
 
 #Definition([Définition des variable et du contexte
-$ #proof-tree(eval("LET",
-    $Delta tack.r "let" x: T = "E1" "in" "E2" --> "E2p"$, 
-    $Delta tack.r "E1" --> "E1p"$,
-    $Delta, "x" = "E1p" tack.r "E2" --> "E2p"$
-  )) $
-$ #proof-tree(eval("VAR",
-    $Delta tack.r "x" --> "E"$, 
-    $Delta tack.r "x" = E$,
-  )) $
+#LET
+#VAR
 ])
 
 #pagebreak()
@@ -154,16 +104,8 @@ Afin de pouvoir accueillir des génériques ainsi que des types dépendants. Nou
 Avec le contexte défini, nous avons la capacité de créer des variables adoptant un certain type. La règle *VAR* permet de vérifier l'assignation d'une variable si elle est présente dans le contexte. Le term *let* illustré par la règle *T-LET* permet la création desdites variables. Si les types de l'assignation correspondent, l'expression finale retourne un certain type. 
 
 #Definition([Context pour les types et les génériques
-$ #proof-tree(typing("T-LET",
-  $Gamma tack.r "let" "x": "T1" = "E1" "in" "E2" : "T2"$,
-  $Gamma tack.r "E1" : "T1"$, 
-  $Gamma tack.r "x" : "T1" "E2" : "T2"$
-)) $
-
-$ #proof-tree(typing("VAR",
-  $Gamma tack.r "x": sigma$,
-  $Gamma tack.r "x": sigma$
-)) $
+#T_LET
+#T_VAR
 ])
 
 == Système R2D2
@@ -181,20 +123,13 @@ func<>(){7}
 Comme mentionné précédemment, les fonctions sont l'un des outils les plus puissants et sophistiqués de ce langage, le but étant de pouvoir sécuriser les opérations sur des tableaux multidimensionnels. Ici, les fonctions peuvent admettre des génériques en plus des types sur chaque paramètre. 
 
 #Definition()[Typage de fonction
-$ #proof-tree(typing("T-FUNC",
-  $Gamma tack.r "func"< overline( "a")>( overline( "x":"T")) -> "T" { "E" } : (( overline( "T")) -> "T")$,
-  $Gamma , overline( "x":"T") tack.r "E" : "T"$
-)) $
+#T_FUNC
 ]
 
 Ces génériques peuvent être réservés pour contenir des types ou des valeurs et ainsi créer des fonctions spécifiques. On peut le voir quand à l'application de fonction. 
 
 #Definition()[Typage d'une application de fonction
-$ #proof-tree(typing("T-FUNC-APP", 
-  $("E1")< overline("g")>( overline( "E")) : "T"$,
-  $Gamma tack.r "E1" : <overline(a)>(overline( "T")) -> "T"$,
-  $[overline("a") \/ overline("g")]overline("T") => overline("Tp")$,
-  $Gamma tack.r overline("E") : overline("Tp")$)) $
+#T_FUNC_APP
 ]
 
 == Système C3PO

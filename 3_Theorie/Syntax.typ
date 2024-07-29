@@ -9,6 +9,13 @@ Après avoir défini ses différents composants, nous allons maintenant faire un
 
 
 #Definition()[Syntax du langage Système C3PO
+
+$Phi : a --> K$ *contexte de typage de variable de type*
+
+$Gamma : X --> T$ *contexte de typage*
+
+$Delta : X --> V$ *contexte d'évaluation*
+
 #bnf(
   Prod(
     $E$,
@@ -45,14 +52,6 @@ Après avoir défini ses différents composants, nous allons maintenant faire un
     }
   ),
   Prod(
-    $I$,
-    annot: "Index",
-    {
-      Or[$"n" in NN$][*number*]
-      Or[$"I" + "I"$][*addition*]
-    }
-  ),
-  Prod(
     $op$,
     annot: "bop",
     {
@@ -68,11 +67,11 @@ Après avoir défini ses différents composants, nous allons maintenant faire un
     }
   ),
   Prod(
-    $"ctx"$,
-    annot: "context",
+    $K$,
+    annot: "Kind",
     {
-      Or[$tack.r Gamma "ctxt" $][*valid_context*]
-      Or[$Gamma tack.r I "index" $][*Index*]
+      Or[$T$][*Type*]
+      Or[$D$][*Dimension*]
     }
   )
 )

@@ -44,6 +44,7 @@ Les sciences des données et les statistiques jouent un rôle de plus en plus im
 #include "3_Theorie/Syntax.typ"
 #include "3_Theorie/Évaluation.typ"
 #include "3_Theorie/Typage.typ"
+#include "3_Theorie/Soundness.typ"
 
 #include "3_Theorie/Intro.typ"
 #include "3_Theorie/Types_de_données_basiques.typ"

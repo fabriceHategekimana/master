@@ -62,9 +62,8 @@ $ #proof-tree(eval("E-TAPP", $t_1 [T_2] --> t_1p [T_2]$, $t_1 --> t_1p$)) $
 $ #proof-tree(eval("E-TAPPTABS", $(lambda X . t_12) [T_2] --> [X \/ T_2] t_12$)) $
 ]
 
-
 #Definition[Typage du système F
-$ #proof-tree(typing_c("T-VAR", "x : T", $ x:T in Gamma$)) $
+$ #proof-tree(typing_c("T-VAR", "x : T", $ Gamma("x") = T$)) $
 $ #proof-tree((typing_c("T-ABS", $lambda x:T_1 . t_2 : T_1 -> T_2$))) $
 $ #proof-tree(typing_c("T-APP", $t_1 t_2 : T_12 $, $Gamma tack.r : T_11 -> T_12$, $Gamma tack.r t_2 : T_11$)) $
 $ #proof-tree(typing_c("T-TABS", $lambda X . t_2 : forall X . T_2$, $Gamma, X tack.r t_2 : T_2$)) $

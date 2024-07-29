@@ -51,7 +51,7 @@ $ #proof-tree(eval("E-APPABS", $(lambda x . t_12) v_2 --> [x\/v_2] t_12$)) $
 ]
 
 #Definition[Typage du lambda calcul simplement typé
-$ #proof-tree(typing_c("T-VAR", "x : T", $ x:T in Gamma$)) $
+$ #proof-tree(typing_c("T-VAR", "x : T", $ Gamma(x) = T$)) $
 $ #proof-tree((typing_c("T-ABS", $lambda x:T_1 . t_2 : T_1 -> T_2$))) $
 $ #proof-tree(typing_c("T-APP", $t_1 t_2 : T_12 $, $Gamma tack.r : T_11 -> T_12$, $Gamma tack.r t_2 : T_11$)) $
 ]
