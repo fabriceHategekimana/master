@@ -35,14 +35,14 @@ $ #bnf(
 ]
 
 #Definition[Évaluation du lambda calcul
-$ #proof-tree(eval("E-APP1", $t_1 t_2 --> t_1p t_2$, $t_1 --> t_1p$)) $ 
-$ #proof-tree(eval("E-APP2", $v_1 t_2 --> v_1 t_2p$, $t_2 --> t_2p$)) $ 
+$ #proof-tree(eval("E-APP1", $t_1 t_2 --> t_1^' t_2$, $t_1 --> t_1^'$)) $ 
+$ #proof-tree(eval("E-APP2", $v_1 t_2 --> v_1 t_2^'$, $t_2 --> t_2^'$)) $ 
 $ #proof-tree(eval("E-APPABS", $(lambda x . t_12) v_2 --> [x\/v_2] t_12$)) $ 
 ]
 
 Le lambda calcul est un modèle de computation universel. Le lambda calcul fournit un cadre théorique qui peut simuler n'importe quel autre modèle de computation. Cela en fait un outil puissant pour comprendre les propriétés fondamentales des langages de programmation et pour prouver des théorèmes sur la computation.
 
-Le lambda calcul est aussi une base pour les Langages Fonctionnels. C'est un avantage comme R, notre langage cible, est une langage de programmation orienté vers le fonctionnel. De nombreux langages de programmation modernes, tels que Haskell, Lisp, et même certaines parties de Python, sont fortement influencés par les concepts du lambda calcul. Il sert de base à la programmation fonctionnelle, un paradigme qui traite les fonctions comme des citoyens de première classe et favorise des concepts comme l'immuabilité et les expressions pures.
+Le lambda calcul est aussi une base pour les langages fonctionnels. C'est un avantage comme R, notre langage cible, est une langage de programmation orienté vers le fonctionnel. De nombreux langages de programmation modernes, tels que Haskell, Lisp, et même certaines parties de Python, sont fortement influencés par les concepts du lambda calcul. Il sert de base à la programmation fonctionnelle, un paradigme qui traite les fonctions comme des citoyens de première classe et favorise des concepts comme l'immuabilité et les expressions pures.
 
 Le lambda calcul servira de première pierre à notre langage prototype.
 

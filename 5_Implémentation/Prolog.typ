@@ -77,14 +77,14 @@ Voici la version "Prolog" du langage:
 )
 ]
 
-La transition est plutôt simple comme il suffit de transformer les expressions en fonction prenant un paramètre spécial par élément de la syntaxe. Pour donner une distinction, les types prennent un "" au début du nom pour préciser que ce sont des types. Il faut aussi encapsuler les variable et les générique (respectivement var(x) et gen(a)) pour donner une distinction dans l'evaluation des règles. Il n'y a pas besoin de créer les règles pour les symboles true et false. 
+La transition est plutôt simple comme il suffit de transformer les expressions en fonction prenant un paramètre spécial par élément de la syntaxe. Pour donner une distinction, les types prennent un "t\_" au début du nom pour préciser que ce sont des types. Il faut aussi encapsuler les variable et les générique (respectivement var(x) et gen(a)) pour donner une distinction dans l'evaluation des règles. Il n'y a pas besoin de créer les règles pour les symboles true et false. 
 
 Après cela, il a fallut créer deux règles pour la sémantique dévaluation (evaluation(Context, Term, Result)) et la sémantique de typage (typage(Context, Term, Result)).
 
 On peut prendre par exemple la fonction d'itentité représenté avec le langage système C3PO, ainsi que sa sémantique d'évaluation et sa sémantique de typage.
 
 #Exemple()[Application de la fonction identité dans la syntaxe de Système C3PO
-```R
+```typescript
 func<T>(a: T) -> T {
   a
 }(7)
@@ -119,4 +119,4 @@ typing([],
 ```
 ]
 
-Le code prolog se trouve dans mon repository github. Les deux fichiers principaux sont `evaluation.pl` et `typage.pl`. Il existe une liste de testes dans ces deux fichiers.
+Le code prolog se trouve dans mon repository github. Les deux fichiers principaux sont `evaluation.pl` et `typage.pl`. Il existe une liste de teste dans ces deux fichiers.

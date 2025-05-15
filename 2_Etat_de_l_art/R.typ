@@ -69,7 +69,9 @@ attr(vecteur, "noms")
 
 Ces attributs sont des métadonnées qui peuvent être changées durant le temps d'exécution. Elles peuvent aussi être appliquées aux fonctions. Les classes ne sont en fait que des listes qui ont des attributs spécifiques. Ces attributs peuvent être utilisés lorsque les structures sont passées en tant que éléments de fonction, l'expédition de la bonne fonction à appeler se fait de façon dynamique (dynamic dispatch #footnote[Le dynamic dispatch, ou la répartition dynamique, est un concept clé en programmation orientée objet qui concerne la façon dont les méthodes sont sélectionnées et exécutées en fonction du type réel d'un objet lors de l'exécution du programme. En d'autres termes, cela permet à un langage de déterminer dynamiquement quelle méthode appeler en fonction du type de l'objet sur lequel la méthode est invoquée.]). C'est ce qu'utilise actuellement le système S3 ou S4 de R. 
 
-Les arrays dans R sont la structure de données la plus proche de ce qu'est un tenseur. En effet, c'est une représentation de tenseur. En réalité, les arrays sont des vecteurs avec un attribut spécial décrivant la dimension du dit tenseur. Mais la structure sous-jacente reste le vecteurs. 
+Les arrays dans R sont la structure de données la plus proche de ce qu'est un tenseur. En effet, c'est une représentation de tenseur. Un tenseur est un concept mathématique utilisé pour représenter des objets qui généralisent les notions de scalaires, de vecteurs et de matrices. De manière générale, un tenseur est un objet multidimensionnel qui contient des informations et peut être utilisé pour modéliser des relations dans des espaces vectoriels.
+
+En réalité, les arrays sont des vecteurs avec un attribut spécial décrivant la dimension du dit tenseur. Mais la structure sous-jacente reste le vecteurs. 
 
 #Exemple()[Les tableaux en R
 ```r
@@ -114,7 +116,6 @@ add_two <- function(x) { x + 2 }
 result <- add_two(3)
 print(result)  # Résultat : 5
 
-#Utiliser des fonctions anonymes avec lapply
 nombres <- list(1, 2, 3, 4, 5)
 ```
 ]
@@ -151,5 +152,5 @@ print(result)  # Résultat : list(2, 4)
 
 Pour le reste les fonctions peuvent directement marcher sur des vecteur à cause de la fonctionnalité de "vectorization" du langage.
 
-Floréal Morandat et al (source: Évaluating the design of the R language) ont donné une évaluation plus formelle du langage R et de sa sémantique.
+Floréal Morandat et al ([todo] source: Évaluating the design of the R language) ont donné une évaluation plus formelle du langage R et de sa sémantique.
 

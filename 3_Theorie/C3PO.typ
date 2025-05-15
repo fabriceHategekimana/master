@@ -19,11 +19,11 @@ Le prototype final s'appelle C3PO suite aux différentes transformations que nou
   table.header(
     [*Langage*], [*Fonctionnalité ajouté*],
   ),
-  "lambda caclul", "computation",
+  "lambda caclul", "calcul",
   "lambda calcul simplement typé", "typage",
   "système F", "génériques",
   "système R", "int, bool, opérateurs de base, if...then...else",
-  "système R2", "context",
+  "système R2", "contexte",
   "système R2D", "types dépendants sur les entiers positifs",
   "système R2D2", "fonctions générales",
   "système C3PO", "tableaux",
@@ -39,27 +39,36 @@ Nous allons aborder les modifications présentées dans le tableau à partir du 
 
 Le système R est juste une première tentative pour amener des éléments plus communs en programmation et avec lesquels nous allons développer notre prototype. Le but n'est pas d'imiter entièrement le langage de programmation R mais de prendre le minimum pour faire nos calculs. C'est pourquoi nous choisissons les deux types `int` et `bool` qui ont chacun leur rôle. Il est possible d'émuler ces valeurs à l'aide des éléments du système F mais c'est beaucoup plus pratique de travailler avec des valeurs plus communes. 
 
-Les nombre entiers positifs `int` vont nous permettre d'avoir une base minimum pour faire des calculs. C'est pourquoi nous ajoutons les opérateurs d'addition et de multiplication pour ne pas tomber sur des nombres à virgules ou des nombres négatifs. 
+Les nombre entiers positifs `int` vont nous permettre d'avoir une base minimum pour faire des calculs. Pour garder la base du langage minimal, nous ajoutons seulement les opérateurs d'addition et de multiplication.
 
 #Definition()[Le type de base "int"
 #NUM
-#PLUS
-#TIME
+#PLUS_L
+#PLUS_R
+#PLUS_FINAL
+#TIME_L
+#TIME_R
+#TIME_FINAL
 ]
 
 
 Les booléens se comportent aussi de la même façon que dans les langages de programmations classiques comme python. Ils s'appuient aussi sur l'arithmétique classique.
 
-#Definition([Le type de base "bool"
+#Definition()[Le type de base "bool"
 #BOOL_T
 #BOOL_F
-#AND
-#OR
-])
+#AND_L
+#AND_R
+#AND_FINAL
+#OR_L
+#OR_R
+#OR_FINAL
+]
 
-Les booléens vont nous permettre d'ajouter de la logique à notre code et à simplifier le traitement conditionnel impliqué par le contrôle de flux `if...then..else` qui est un opérateur ternaire. Ce choix nous permet d'avoir une structure régulière capable d'émuler des `else if` par imbrication de contrôle de flux `ìf...then...else`. 
+Les booléens vont nous permettre d'ajouter de la logique à notre code et à simplifier le traitement conditionnel impliqué par le contrôle de flux `if...then..else` qui est un opérateur ternaire. Ce choix nous permet d'avoir une structure régulière capable d'émuler des `else if` par imbrication de contrôle de flux `if...then...else`. 
  
 #Definition([Les conditions
+#IF_START
 #IF_T
 #IF_F
 ])
@@ -67,11 +76,21 @@ Les booléens vont nous permettre d'ajouter de la logique à notre code et à si
 Il nous faut aussi des opérateurs de base pour faire des testes logique. Ces opérateurs marcherons principalement pour les entiers car c'est le cas qui nous intresse le plus. L'opérateur d'égalité marchera pour tout les types (primitifs ou structure) du moment que les deux membre de l'opération sont du même type. Il est à noté qu'on pourra utiliser les opérateurs "and" ou "or" pour créer des combinaisons de propriété plus complexes.
 
 #Definition([Les opérateurs de bases pour les conditions
-#EQ
-#LOW
-#GRT
-#LOW_EQ
-#GRT_EQ
+#EQ_L
+#EQ_R
+#EQ_FINAL
+#LOW_L
+#LOW_R
+#LOW_FINAL
+#GRT_L
+#GRT_R
+#GRT_FINAL
+#LOW_EQ_L
+#LOW_EQ_R
+#LOW_EQ_FINAL
+#GRT_EQ_L
+#GRT_EQ_R
+#GRT_EQ_FINAL
 ])
 
 On a maintenant un noyau qui nous donne la capacité de faire des opérations sur des ensembles de valeurs définis. Ce qui va nous permettre de traiter avec des opérations plus complexes. 
@@ -84,6 +103,7 @@ Il nous faut aussi une règle qui permet de vérifier que l'appel d'une variable
 
 #Definition([Définition des variable et du contexte
 #LET
+#LET_FINAL
 #VAR
 ])
 

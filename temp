@@ -1,0 +1,23 @@
+layout {
+	pane {
+		cwd "prolog"
+		name "prolog"
+		command "nvim"
+		args "typing.pl"
+		close_on_exit true
+	}
+	floating_panes {
+		pane {
+			cwd "prolog"
+			name "typing test"
+			command "prolog"
+			args "typing.pl"
+			x "10%"
+			y "10%"
+			width "80%"
+			height "80%"
+		}
+	}
+}
+
+

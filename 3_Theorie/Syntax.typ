@@ -8,27 +8,27 @@
 Après avoir défini ses différents composants, nous allons maintenant faire une présentation complète du langage prototype système C3PO.
 
 
-#Definition()[Syntax du langage Système C3PO
+#Definition()[Syntaxe du langage Système C3PO
 
-$Phi : a --> K$ *contexte de typage de variable de type*
+$Delta : X --> V$ *contexte d'évaluation*
 
 $Gamma : X --> T$ *contexte de typage*
 
-$Delta : X --> V$ *contexte d'évaluation*
+$Phi : a --> K$ *contexte de typage de variable de type*
 
 #bnf(
   Prod(
     $E$,
     annot: $sans("Expression")$,
     {
-      Or[$"let" x = "E1" "in" "E2"$][*let*]
-      Or[$"func"<overline("a")>(overline("x":"T")) -> "T" { "E" }$][*func*]
+      Or[$"let" x: T = "E1" "in" "E2"$][*let*]
       Or[$"if" "E1" "then" "E2" "else" "E3" $][*if*]
       Or[$"op"$][*bop*]
-      Or[$("E1")< overline( "a")>( overline( "E")) $][*func_app*]
+      Or[$("E1")< overline("a:K")>( overline( "E")) $][*func_app*]
       Or[$"first"("E") $][*first_arr*]
       Or[$"rest"("E") $][*rest_arr*]
-      Or[$V $][*V value*]
+      Or[$V $][*value*]
+      Or[$x $][*variable*]
     },
   ),
   Prod(
@@ -39,16 +39,25 @@ $Delta : X --> V$ *contexte d'évaluation*
       Or[$"true" $][*true*]
       Or[$"false" $][*false*]
       Or[$[ overline( "E")] $][*array*]
+      Or[$"func"<overline("a:K")>(overline("x":"T")) -> "T" { "E" }$][*func*]
     },
   ),
   Prod(
     $T$,
     annot: "Type",
     {
-      Or[$<overline("a")>( overline( "T")) -> "T"$][*function_type*]
+      Or[$<overline("K")>( overline( "T")) -> "T"$][*function_type*]
       Or[$["I";"T"] $][*array_type*]
       Or[$"int" $][*int*]
       Or[$"bool" $][*bool*]
+    }
+  ),
+  Prod(
+    $I$,
+    annot: "Index generic",
+    {
+      Or[$"n"$][*number*]
+      Or[$"n1 + n2"$][*add_dim*]
     }
   ),
   Prod(
@@ -70,8 +79,8 @@ $Delta : X --> V$ *contexte d'évaluation*
     $K$,
     annot: "Kind",
     {
-      Or[$T$][*Type*]
-      Or[$D$][*Dimension*]
+      Or[$"Type"$][*Type*]
+      Or[$"Dim"$][*Dimension*]
     }
   )
 )
