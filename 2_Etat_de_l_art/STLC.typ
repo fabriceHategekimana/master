@@ -1,5 +1,7 @@
 #import "@preview/simplebnf:0.1.0": *
-#import "../src/module.typ" : *
+#import "../src/theorem.typ" : *
+#import "@preview/curryst:0.5.1": rule, prooftree
+#import "../src/rules.typ"
 
 === Le lambda calcul simplement typé
 
@@ -43,17 +45,16 @@ $ #bnf(
 ) $
 ]
 
-
 #Definition[Évaluation du lambda calcul simplement typé
-$ #proof-tree(eval("E-APP1", $t_1 t_2 --> t_1^' t_2$, $t_1 --> t_1^'$)) $ 
-$ #proof-tree(eval("E-APP2", $v_1 t_2 --> v_1 t_2^'$, $t_2 --> t_2^'$)) $ 
-$ #proof-tree(eval("E-APPABS", $(lambda x . t_12) v_2 --> [x\/v_2] t_12$)) $ 
+$ #prooftree(rules.evaluate("E-APP1", $t_1 t_2 --> t_1^' t_2$, $t_1 --> t_1^'$)) $ 
+$ #prooftree(rules.evaluate("E-APP2", $v_1 t_2 --> v_1 t_2^'$, $t_2 --> t_2^'$)) $ 
+$ #prooftree(rules.evaluate("E-APPABS", $(lambda x . t_12) v_2 --> [x\/v_2] t_12$)) $ 
 ]
 
 #Definition[Typage du lambda calcul simplement typé
-$ #proof-tree(typing_c("T-VAR", "x : T", $ Gamma(x) = T$)) $
-$ #proof-tree((typing_c("T-ABS", $lambda x:T_1 . t_2 : T_1 -> T_2$))) $
-$ #proof-tree(typing_c("T-APP", $t_1 t_2 : T_12 $, $Phi, Gamma tack.r T_11 -> T_12$, $Phi, Gamma tack.r t_2 : T_11$)) $
+$ #prooftree(rules.typing_c("T-VAR", "x : T", $ Gamma(x) = T$)) $
+$ #prooftree((rules.typing_c("T-ABS", $lambda x:T_1 . t_2 : T_1 -> T_2$))) $
+$ #prooftree(rules.typing_c("T-APP", $t_1 t_2 : T_12 $, $Phi, Gamma tack.r T_11 -> T_12$, $Phi, Gamma tack.r t_2 : T_11$)) $
 ]
 
 Le lambda calculs simplement typé ajoute des types de base au choix et la définition de type de fonction. Le lambda calcul simplement typé est moins expressif que le lambda calcul classique mais offre plus de sécurité dans ses manipulations. On sera en mesure de faire des calculs plus sûrs dans notre langage, mais ce n'est pas encore suffisant pour assurer assez de sécurité pour la manipulation de tableaux multidimensionnels. 

@@ -1,6 +1,8 @@
-#import "@preview/bubble:0.1.0": *
-#import "@preview/curryst:0.3.0": rule, proof-tree
-#import "src/module.typ": *
+#import "@preview/bubble:0.2.2": *
+#import "@preview/curryst:0.5.1": rule, prooftree
+#import "src/theorem.typ"
+#import "src/rules.typ"
+#import "theme.typ": accent
 
 #show: bubble.with(
   title: "Système de type",
@@ -18,6 +20,8 @@
   justify: true,
   linebreaks: "optimized"
 )
+
+#show: accent
 
 #pagebreak()
 

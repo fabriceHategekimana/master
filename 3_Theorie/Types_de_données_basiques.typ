@@ -1,4 +1,6 @@
-#import "../src/module.typ" : *
+#import "../src/theorem.typ" : *
+#import "@preview/curryst:0.5.1": rule, prooftree
+#import "../src/rules.typ"
 
 == Types de données basiques
 
@@ -44,11 +46,11 @@ Peut-être représentée comme ceci:
 Il n'y a pas d'évaluation intéressante pour une valeur. Le typage est simple:
 
 #Exemple()[Exemple de la sémantique de typage d'une matrice
-  $ #proof-tree(typing("T-ARR",
+  $ #prooftree(rules.typing("T-ARR",
     $Gamma tack.r "[[2, 2], [2, 2]]" : "[2, [2, int]]"$,
     $"len([[2, 2], [2, 2]])" => "2"$,
     $tack.r 2 "index"$,
-    typing("T-ARR",
+    rules.typing("T-ARR",
       $Gamma tack.r "[2, 2]" : "[2, int]"$,
       $"len([2, 2])" => "2"$,
       $tack.r 2 "index"$,
@@ -64,7 +66,7 @@ Par la représentation actuelle des matrices il est facile de représenter les o
 Pour ce faire, nous devons définir la notion de mapping. Notre langage est tiré du lambda calculus et exploite donc les notions de programmation fonctionnelle. Nous n'utilisons pas de boucle mais nous avons la notion de récursivité. Imaginons que nous voulions incrémenter de 1 tout les éléments d'un tableau avec notre langage. Le système de type nous prévient de faire des opération erronées comme: 
 
 #Exemple()[Opération non valide dans le système de type
-$ #proof-tree(typing("PLUS",
+$ #prooftree(rules.typing("PLUS",
   $"[1, 2, 3, 4] + 1 : ?"$,
   $"[1, 2, 3, 4]" : "[4, int]"$,
   $"1" : "int"$,
@@ -111,12 +113,12 @@ let plus_1: (int) -> int =
 On est donc en mesure d'appeler la fonction de mapping avec cette fonction: 
 
 #Exemple()[Évaluation de l'addition d'un tableau avec un scalaire à l'aide des fonctions map et plus_1
-$ #proof-tree(eval("", "map(plus_1, [1, 2, 3, 4]) => [2, 3, 4, 5]", "")) $
+$ #prooftree(rules.evaluate("", "map(plus_1, [1, 2, 3, 4]) => [2, 3, 4, 5]", "")) $
 ]
 
 #Exemple()[Typage de l'addition d'un tableau avec un scalaire à l'aide des fonctions map et plus_1
 
-$ #proof-tree(typing("", "map(plus_1, [1, 2, 3, 4]) : [4, int]")) $
+$ #prooftree(rules.typing("", "map(plus_1, [1, 2, 3, 4]) : [4, int]")) $
 ]
 
 Cette expression est correctement typée et donne [2, 3, 4, 5]. 
@@ -140,7 +142,7 @@ L'avantage de la définition choisie des tenseurs se présente dans la similarit
 Une autre chose intéressante serait de pouvoir appliquer des opérations entres différents tenseurs. En algèbre linéaire, il faut que les matrices aient la même forme. Notre système de type peut assurer ça. On verra un peu plus loin le cas particulier du broadcasting. On aimerait être en mesure d'additionner ou de multiplier des matrices de même forme. Comme vu tout à l'heure, faire des calculs en utilisant directement l'opérateur ne marche pas et est prévenu par notre système de type: 
 
 #Exemple()[Comment faire une addition entre deux tableaux ?
-$ #proof-tree(typing("", "[1, 2, 3, 4] + [4, 3, 2, 1] : ?")) $
+$ #prooftree(rules.typing("", "[1, 2, 3, 4] + [4, 3, 2, 1] : ?")) $
 ]
 
 Une solution serait d'appliquer la notion de mapping mais pour les fonctions binaires (à deux opérateurs). Il y aurait un moyen de réutiliser les fonctions map définies précédemment à l'aide de tuple, mais comme notre langage ne l'implémente pas, on se contentera de simplement créer des des fonctions binaires et une fonction "map_op". 
@@ -220,7 +222,7 @@ let map_op2: ((T, T) -> U, [M, [N, T]], [M, [N, T]]) -> [M, [N, U]] =
 Ici encore, il suffit juste de reprendre la fonction "map_op" et de remplacer toutes les instance de "map_op" en "map_op2". Nous pouvons maintenant utiliser les opérations de bases sur les matrices.
 
 #Exemple()[Évaluation
-#proof-tree(typing("",
+#prooftree(rules.typing("",
   $Gamma tack.r "map_op2<int, int, 2, 2>(minus, [[2, 2], [2, 2]], [[1, 1], [1, 1]]) : [[1, 1], [1, 1]]"$,
 ))
 ]

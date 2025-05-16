@@ -1,4 +1,5 @@
-#import "../src/module.typ" : *
+#import "../src/theorem.typ": *
+#import "../src/rules.typ"
 
 #pagebreak()
 

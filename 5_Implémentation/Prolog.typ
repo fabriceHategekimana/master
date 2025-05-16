@@ -1,5 +1,5 @@
 #import "@preview/simplebnf:0.1.0": *
-#import "../src/module.typ": *
+#import "../src/theorem.typ" : *
 
 #pagebreak()
 

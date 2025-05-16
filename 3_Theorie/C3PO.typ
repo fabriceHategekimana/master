@@ -1,4 +1,5 @@
-#import "../src/module.typ" : *
+#import "../src/theorem.typ" : *
+#import "../src/rules.typ"
 
 #pagebreak()
 
@@ -42,55 +43,55 @@ Le système R est juste une première tentative pour amener des éléments plus 
 Les nombre entiers positifs `int` vont nous permettre d'avoir une base minimum pour faire des calculs. Pour garder la base du langage minimal, nous ajoutons seulement les opérateurs d'addition et de multiplication.
 
 #Definition()[Le type de base "int"
-#NUM
-#PLUS_L
-#PLUS_R
-#PLUS_FINAL
-#TIME_L
-#TIME_R
-#TIME_FINAL
+#rules.NUM
+#rules.PLUS_L
+#rules.PLUS_R
+#rules.PLUS_FINAL
+#rules.TIME_L
+#rules.TIME_R
+#rules.TIME_FINAL
 ]
 
 
 Les booléens se comportent aussi de la même façon que dans les langages de programmations classiques comme python. Ils s'appuient aussi sur l'arithmétique classique.
 
 #Definition()[Le type de base "bool"
-#BOOL_T
-#BOOL_F
-#AND_L
-#AND_R
-#AND_FINAL
-#OR_L
-#OR_R
-#OR_FINAL
+#rules.BOOL_T
+#rules.BOOL_F
+#rules.AND_L
+#rules.AND_R
+#rules.AND_FINAL
+#rules.OR_L
+#rules.OR_R
+#rules.OR_FINAL
 ]
 
 Les booléens vont nous permettre d'ajouter de la logique à notre code et à simplifier le traitement conditionnel impliqué par le contrôle de flux `if...then..else` qui est un opérateur ternaire. Ce choix nous permet d'avoir une structure régulière capable d'émuler des `else if` par imbrication de contrôle de flux `if...then...else`. 
  
 #Definition([Les conditions
-#IF_START
-#IF_T
-#IF_F
+#rules.IF_START
+#rules.IF_T
+#rules.IF_F
 ])
 
 Il nous faut aussi des opérateurs de base pour faire des testes logique. Ces opérateurs marcherons principalement pour les entiers car c'est le cas qui nous intresse le plus. L'opérateur d'égalité marchera pour tout les types (primitifs ou structure) du moment que les deux membre de l'opération sont du même type. Il est à noté qu'on pourra utiliser les opérateurs "and" ou "or" pour créer des combinaisons de propriété plus complexes.
 
 #Definition([Les opérateurs de bases pour les conditions
-#EQ_L
-#EQ_R
-#EQ_FINAL
-#LOW_L
-#LOW_R
-#LOW_FINAL
-#GRT_L
-#GRT_R
-#GRT_FINAL
-#LOW_EQ_L
-#LOW_EQ_R
-#LOW_EQ_FINAL
-#GRT_EQ_L
-#GRT_EQ_R
-#GRT_EQ_FINAL
+#rules.EQ_L
+#rules.EQ_R
+#rules.EQ_FINAL
+#rules.LOW_L
+#rules.LOW_R
+#rules.LOW_FINAL
+#rules.GRT_L
+#rules.GRT_R
+#rules.GRT_FINAL
+#rules.LOW_EQ_L
+#rules.LOW_EQ_R
+#rules.LOW_EQ_FINAL
+#rules.GRT_EQ_L
+#rules.GRT_EQ_R
+#rules.GRT_EQ_FINAL
 ])
 
 On a maintenant un noyau qui nous donne la capacité de faire des opérations sur des ensembles de valeurs définis. Ce qui va nous permettre de traiter avec des opérations plus complexes. 
@@ -102,9 +103,9 @@ Bien que le système R nous donne plus de souplesse et de flexibilité dans nos 
 Il nous faut aussi une règle qui permet de vérifier que l'appel d'une variable est bel et bien valide, à savoir, que nous pouvons faire référence à une variable uniquement si elle a été préalablement définit à l'aide du mot clé "let". Nous pouvont faire ceci en créant la règle "VAR".
 
 #Definition([Définition des variable et du contexte
-#LET
-#LET_FINAL
-#VAR
+#rules.LET
+#rules.LET_FINAL
+#rules.VAR
 ])
 
 #pagebreak()
@@ -124,8 +125,8 @@ Afin de pouvoir accueillir des génériques ainsi que des types dépendants. Nou
 Avec le contexte défini, nous avons la capacité de créer des variables adoptant un certain type. La règle *VAR* permet de vérifier l'assignation d'une variable si elle est présente dans le contexte. Le term *let* illustré par la règle *T-LET* permet la création desdites variables. Si les types de l'assignation correspondent, l'expression finale retourne un certain type. 
 
 #Definition([Context pour les types et les génériques
-#T_LET
-#T_VAR
+#rules.T_LET
+#rules.T_VAR
 ])
 
 == Système R2D2
@@ -143,13 +144,13 @@ func<>(){7}
 Comme mentionné précédemment, les fonctions sont l'un des outils les plus puissants et sophistiqués de ce langage, le but étant de pouvoir sécuriser les opérations sur des tableaux multidimensionnels. Ici, les fonctions peuvent admettre des génériques en plus des types sur chaque paramètre. 
 
 #Definition()[Typage de fonction
-#T_FUNC
+#rules.T_FUNC
 ]
 
 Ces génériques peuvent être réservés pour contenir des types ou des valeurs et ainsi créer des fonctions spécifiques. On peut le voir quand à l'application de fonction. 
 
 #Definition()[Typage d'une application de fonction
-#T_FUNC_APP
+#rules.T_FUNC_APP
 ]
 
 == Système C3PO

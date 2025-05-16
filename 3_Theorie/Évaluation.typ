@@ -1,55 +1,57 @@
-#import "../src/module.typ" : *
+#import "../src/theorem.typ" : *
+#import "../src/rules.typ"
+
 #pagebreak()
 
 == Sémantique d'Évaluation
 
 #Definition()[Rèlges d'évaluation part.1
-#NUM
-#PLUS_L
-#PLUS_R
-#PLUS_FINAL
-#TIME_L
-#TIME_R
-#TIME_FINAL
-#BOOL_T
-#BOOL_F
-#AND_L
-#AND_R
-#AND_FINAL
-#OR_L
-#OR_R
-#OR_FINAL
-#EQ_L
-#EQ_R
-#EQ_FINAL
+#rules.NUM
+#rules.PLUS_L
+#rules.PLUS_R
+#rules.PLUS_FINAL
+#rules.TIME_L
+#rules.TIME_R
+#rules.TIME_FINAL
+#rules.BOOL_T
+#rules.BOOL_F
+#rules.AND_L
+#rules.AND_R
+#rules.AND_FINAL
+#rules.OR_L
+#rules.OR_R
+#rules.OR_FINAL
+#rules.EQ_L
+#rules.EQ_R
+#rules.EQ_FINAL
 ]
 
 #Definition()[Règles d'évaluation part.2
-#LOW_L
-#LOW_R
-#LOW_FINAL
-#GRT_L
-#GRT_R
-#GRT_FINAL
-#LOW_EQ_L
-#LOW_EQ_R
-#LOW_EQ_FINAL
-#GRT_EQ_L
-#GRT_EQ_R
-#GRT_EQ_FINAL
-#IF_T
-#IF_F
-#LET
-#LET_FINAL
+#rules.LOW_L
+#rules.LOW_R
+#rules.LOW_FINAL
+#rules.GRT_L
+#rules.GRT_R
+#rules.GRT_FINAL
+#rules.LOW_EQ_L
+#rules.LOW_EQ_R
+#rules.LOW_EQ_FINAL
+#rules.GRT_EQ_L
+#rules.GRT_EQ_R
+#rules.GRT_EQ_FINAL
+#rules.IF_T
+#rules.IF_F
+#rules.LET
+#rules.LET_FINAL
 ]
 
 #Definition()[Règles d'évaluation part.3
-#VAR
-#FUNC
-#FUNC_APP
-#ARR
-#CONC
-#FIRST_ARR
-#REST_ARR
+#rules.VAR
+#rules.FUNC
+#rules.FUNC_APP
+#rules.ARR
+#rules.CONC
+#rules.FIRST_ARR
+#rules.REST_ARR
 ]
 

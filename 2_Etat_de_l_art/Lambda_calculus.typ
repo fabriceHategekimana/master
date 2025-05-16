@@ -1,5 +1,7 @@
-#import "@preview/simplebnf:0.1.0": *
-#import "../src/module.typ" : *
+#import "../src/theorem.typ": *
+#import "../src/rules.typ"
+#import "@preview/simplebnf:0.1.1": bnf, Prod, Or
+#import "@preview/curryst:0.5.1": prooftree
 
 == Sémantique des langages
 
@@ -35,9 +37,9 @@ $ #bnf(
 ]
 
 #Definition[Évaluation du lambda calcul
-$ #proof-tree(eval("E-APP1", $t_1 t_2 --> t_1^' t_2$, $t_1 --> t_1^'$)) $ 
-$ #proof-tree(eval("E-APP2", $v_1 t_2 --> v_1 t_2^'$, $t_2 --> t_2^'$)) $ 
-$ #proof-tree(eval("E-APPABS", $(lambda x . t_12) v_2 --> [x\/v_2] t_12$)) $ 
+$ #prooftree(rules.evaluate("E-APP1", $t_1 t_2 --> t_1^' t_2$, $t_1 --> t_1^'$)) $ 
+$ #prooftree(rules.evaluate("E-APP2", $v_1 t_2 --> v_1 t_2^'$, $t_2 --> t_2^'$)) $ 
+$ #prooftree(rules.evaluate("E-APPABS", $(lambda x . t_12) v_2 --> [x\/v_2] t_12$)) $ 
 ]
 
 Le lambda calcul est un modèle de computation universel. Le lambda calcul fournit un cadre théorique qui peut simuler n'importe quel autre modèle de computation. Cela en fait un outil puissant pour comprendre les propriétés fondamentales des langages de programmation et pour prouver des théorèmes sur la computation.
