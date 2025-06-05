@@ -12,6 +12,8 @@ En combinant ces deux théorèmes, on peut démontrer que les programmes bien ty
 
 Le théorème de la préservation affirme que si un programme est bien typé et qu'une opération de réduction (ou d'évaluation) est appliquée à ce programme, le résultat de cette opération est également bien typé. Formellement, si une expression $t$ a un type $T$ (c'est-à-dire $t : T$) et que $t$ se réduit à $t$ (noté $t --> t'$), alors $t'$ doit aussi avoir le type $T$ (c'est-à-dire $t' : T$). Ce théorème garantit que les opérations de réduction ne violent pas les contraintes de typage.
 
+La preuve de toutes les expressions du langage serait longue et redondante, surtout lorsque les expressions sur les tableaux multidimensionnels sont plus intéressante à prouver. C'est pourquoi nous nous intéresserons seulement au cas du type primitif booléen et de toutes les expressions qui y sont reliées (ce qui inclut les expressions sur les tableaux multidimensionnels).
+
 Nous allons commencer par prouver la préservation du langage pour les éléments les plus simples. 
 
 #Theorem()[Théorème de la préservation
@@ -31,8 +33,50 @@ La règle de typage dit:
 
 #rules.T_IF
 
-À partir d'une expression if quelconque, nous avons 2 directions possibles: On peut appliquer les deux règles IF-T et IF-F. Étant donné que E2 et E3 sont du même type *T*, la progression est respectée.
+Les règles d'évaluations correspondantes sont:
 
+#rules.IF_T
+#rules.IF_F
+#rules.IF_START
+
+En admettant que l'expression est de type T. On a 3 cas de figure:
+
+==== Cas 1: E1 = true
+
+On a alors l'expression:
+
+$ "if" "true" "then" "E2" "else" "E3" $
+
+IF-T est la seule règle applicable. On a alors:
+
+$ "E2" $
+
+Étant donné que `E2: T` on peut déduire que le type a été préservé. 
+
+==== Cas 2: E1 = false
+
+C'est le même principe que pour le premier cas. On a alors l'expression:
+
+$ "if" "false" "then" "E2" "else" "E3" $
+
+En appliquant la règle IF-T, on a alors:
+
+$ "E3" $
+
+Étant donné que `E3: T` on peut déduire que le type a été préservé. 
+
+==== Cas 3: E1
+
+On a donc l'expression:
+
+$ "if" "E1" "then" "E2" "else" "E3" $
+
+En appliquant la règle IF, on obtient:
+
+
+$ "if" "V1" "then" "E2" "else" "E3" $
+
+Si la transition $"E1" arrow.r.long "V1"$ respect la propriété de progression alors l'expression la respecte aussi.
 
 === Preuve: expression let
 
@@ -44,7 +88,29 @@ La règle de typage dit:
 
 #rules.T_LET
 
-On a deux règles possibles de dérivation: LET et LET-FINAL. Dans le cas où la dérivation de E1 à E1' respecte le typage, la règle LET est respectée. Dans le cas de la règle LET-FINAL, la condition est respecté si la substitution ne casse pas E2.
+Les règles d'évaluations sont:
+
+#rules.LET
+#rules.LET_FINAL
+
+Nous avons 3 cas:
+
+==== Cas 1: E1 -> V1
+
+En apliquant l'expression LET, on obtient cette expression:
+
+$ "let" x: "T1" = "V1" "in" "E2" $
+
+Par déduction `V1 : T1` donc l'expression respecte la règle de préservation.
+
+==== Cas 2: E2 -> V2
+
+En apliquant l'expression LET-FINAL, on obtient cette expression:
+
+$ "let" x: "T1" = "V1" "in" "E2" $
+
+Par déduction `V1 : T1` donc l'expression respecte la règle de préservation.
+
 
 === Preuve: expression array
 
@@ -56,12 +122,11 @@ Sa règle de typage correspondate est:
 
 #rules.T_ARR
 
-
-Nous pouvons appliquer la règle ARR:
+Sa règle d'évaluation est:
 
 #rules.ARR
 
-Ce qui nous donne:
+En l'appliquant à l'expression, nous obtenons:
 
 $ lang.array("V1") $ 
 
@@ -130,7 +195,6 @@ Par définition, les opérations peuvent toujours progresser grâce à leur déf
 
 Le théorème de la progression stipule que si une expression est bien typée, alors cette expression est soit une valeur (c'est-à-dire qu'elle est entièrement évaluée et ne peut plus être réduite), soit il existe une autre expression à laquelle elle peut se réduire (c'est-à-dire qu'il existe une étape de réduction possible). Formellement, si un term $t$ est bien typée (c'est-à-dire $t : T$), alors $t$ est soit une valeur, soit il existe un term $t'$ telle que $t --> t'$. Ce théorème garantit qu'un programme bien typé ne se bloquera pas de manière inattendue (c'est-à-dire qu'il continuera de progresser jusqu'à être entièrement évalué).
 
-// page 353
 
 #Theorem()[Théorème de la progression
 

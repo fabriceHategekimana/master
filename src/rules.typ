@@ -16,24 +16,24 @@
     $Delta tack.r "n" --> "n"$)) $
 
 #let PLUS_L = $ #prooftree(evaluate("PLUS-L", 
-    $Delta tack.r "E1" + "E2" --> "E1'" + "E2"$, 
-    $Delta tack.r "E1" --> "E1'"$))$
+    $Delta tack.r "E1" + "E2" --> "V1" + "E2"$, 
+    $Delta tack.r "E1" --> "V1"$))$
 
 #let PLUS_R = $ #prooftree(evaluate("PLUS-R", 
-    $Delta tack.r "V" + "E2" --> "V" + "E2'"$, 
-    $Delta tack.r "E2" --> "E2'"$
+    $Delta tack.r "V" + "E2" --> "V" + "V2"$, 
+    $Delta tack.r "E2" --> "V2"$
   ))$
     
 #let PLUS_FINAL = $ #prooftree(evaluate("PLUS", 
     $Delta tack.r "V1" + "V2" --> "V1" + "V2"$)) $
 
 #let TIME_L = $ #prooftree(evaluate("TIME-L", 
-    $Delta tack.r "E1" * "E2" --> "E1'" * "E2"$,
-    $Delta tack.r "E1" --> "E1'"$)) $
+    $Delta tack.r "E1" * "E2" --> "V1" * "E2"$,
+    $Delta tack.r "E1" --> "V1"$)) $
   
 #let TIME_R = $ #prooftree(evaluate("TIME-R", 
     $Delta tack.r "V" * "E2" --> "V * E2"$, 
-    $Delta tack.r "E2" --> "E2'"$)) $
+    $Delta tack.r "E2" --> "V2"$)) $
 
 #let TIME_FINAL = $ #prooftree(evaluate("TIME", 
     $Delta tack.r "V1" * "V2" --> "V1 * V2"$)) $
@@ -48,86 +48,86 @@
     $Delta tack.r "V1" "and" "V2" --> "V1" and "V2"$)) $
 
 #let AND_L = $ #prooftree(evaluate("AND-L", 
-    $Delta tack.r "E1" "and" "E2" --> "E1'" and "E2"$,
-    $Delta tack.r "E1" --> "E1'"$)) $
+    $Delta tack.r "E1" "and" "E2" --> "V1" and "E2"$,
+    $Delta tack.r "E1" --> "V1"$)) $
 
 #let AND_R = $ #prooftree(evaluate("AND-R", 
-    $Delta tack.r "V" "and" "E2" --> "V" and "E2'"$,
-    $Delta tack.r "E2" --> "E2'"$)) $
+    $Delta tack.r "V" "and" "E2" --> "V" and "V2"$,
+    $Delta tack.r "E2" --> "V2"$)) $
 
 
 #let OR_L = $ #prooftree(evaluate("OR-L", 
-    $Delta tack.r "E1" "or" "E2" --> "E1'" or "E2"$,
-    $Delta tack.r "E1" --> "E1'"$)) $
+    $Delta tack.r "E1" "or" "E2" --> "V1" or "E2"$,
+    $Delta tack.r "E1" --> "V1"$)) $
 
 #let OR_R = $ #prooftree(evaluate("OR-R", 
-    $Delta tack.r "V1" "or" "E2" --> "V1" or "E2'"$,
-    $Delta tack.r "E2" --> "E2'"$)) $
+    $Delta tack.r "V1" "or" "E2" --> "V1" or "V2"$,
+    $Delta tack.r "E2" --> "V2"$)) $
 
 #let OR_FINAL = $ #prooftree(evaluate("OR", 
     $Delta tack.r "V1" "or" "V2" --> "V1" or "V2"$)) $
 
 #let EQ_L = $ #prooftree(evaluate("EQ-L", 
-    $Delta tack.r "E1" == "E2" --> "E1'" == "E2"$, 
-    $Delta tack.r "E1" --> "E1'"$
+    $Delta tack.r "E1" == "E2" --> "V1" == "E2"$, 
+    $Delta tack.r "E1" --> "V1"$
     )) $
 
 #let EQ_R = $ #prooftree(evaluate("EQ-R", 
-    $Delta tack.r "V1" == "E2" --> "V1" == "E2'"$, 
-    $Delta tack.r "E2" --> "E2'"$
+    $Delta tack.r "V1" == "E2" --> "V1" == "V2"$, 
+    $Delta tack.r "E2" --> "V2"$
     )) $
 
 #let EQ_FINAL = $ #prooftree(evaluate("EQ-FINAL", 
-    $Delta tack.r "V1" == "v2" --> "V1" == "E2'"$
+    $Delta tack.r "V1" == "v2" --> "V1" == "V2"$
     )) $
 
 #let LOW_L = $ #prooftree(evaluate("LOW-L", 
-    $Delta tack.r "E1" < "E2" --> "E1'" < "E2"$, 
-    $Delta tack.r "E1" --> "E1'"$)) $
+    $Delta tack.r "E1" < "E2" --> "V1" < "E2"$, 
+    $Delta tack.r "E1" --> "V1"$)) $
 
 #let LOW_R = $ #prooftree(evaluate("LOW-R", 
-    $Delta tack.r "V" < "E2" --> "E1" < "E2'"$, 
-    $Delta tack.r "E2" --> "E2'"$)) $
+    $Delta tack.r "V" < "E2" --> "E1" < "V2"$, 
+    $Delta tack.r "E2" --> "V2"$)) $
 
 #let LOW_FINAL = $ #prooftree(evaluate("LOW", 
     $Delta tack.r "V1" < "V2" --> "V1" < "V2"$)) $
 
 #let GRT_L = $ #prooftree(evaluate("GRT-L", 
-    $Delta tack.r "E1" > "E2" --> "E1'" > "E2"$, 
-    $Delta tack.r "E1" --> "E1'"$)) $
+    $Delta tack.r "E1" > "E2" --> "V1" > "E2"$, 
+    $Delta tack.r "E1" --> "V1"$)) $
 
 #let GRT_R = $ #prooftree(evaluate("GRT-R", 
-    $Delta tack.r "V" > "E2" --> "E1" > "E2'"$, 
-    $Delta tack.r "E2" --> "E2'"$)) $
+    $Delta tack.r "V" > "E2" --> "E1" > "V2"$, 
+    $Delta tack.r "E2" --> "V2"$)) $
 
 #let GRT_FINAL = $ #prooftree(evaluate("GRT", 
     $Delta tack.r "V1" > "V2" --> "V1" > "V2"$)) $
 
 #let LOW_EQ_L = $ #prooftree(evaluate("LOW-EQ-L", 
-    $Delta tack.r "E1" < "E2" --> "E1'" < "E2"$, 
-    $Delta tack.r "E1" --> "E1'"$)) $
+    $Delta tack.r "E1" < "E2" --> "V1" < "E2"$, 
+    $Delta tack.r "E1" --> "V1"$)) $
 
 #let LOW_EQ_R = $ #prooftree(evaluate("LOW-EQ-R", 
-    $Delta tack.r "V" < "E2" --> "E1" < "E2'"$, 
-    $Delta tack.r "E2" --> "E2'"$)) $
+    $Delta tack.r "V" < "E2" --> "E1" < "V2"$, 
+    $Delta tack.r "E2" --> "V2"$)) $
 
 #let LOW_EQ_FINAL = $ #prooftree(evaluate("LOW-EQ", 
     $Delta tack.r "V1" < "V2" --> "V1" < "V2"$)) $
 
 #let GRT_EQ_L = $ #prooftree(evaluate("GRT-EQ-L", 
-    $Delta tack.r "E1" > "E2" --> "E1'" > "E2"$, 
-    $Delta tack.r "E1" --> "E1'"$)) $
+    $Delta tack.r "E1" > "E2" --> "V1" > "E2"$, 
+    $Delta tack.r "E1" --> "V1"$)) $
 
 #let GRT_EQ_R = $ #prooftree(evaluate("GRT-EQ-R", 
-    $Delta tack.r "V" > "E2" --> "E1" > "E2'"$, 
-    $Delta tack.r "E2" --> "E2'"$)) $
+    $Delta tack.r "V" > "E2" --> "E1" > "V2"$, 
+    $Delta tack.r "E2" --> "V2"$)) $
 
 #let GRT_EQ_FINAL = $ #prooftree(evaluate("GRT-EQ", 
     $Delta tack.r "V1" > "V2" --> "V1" > "V2"$)) $
 
 #let IF_START = $ #prooftree(evaluate("IF-START", 
-    $Delta tack.r "if" "E1" "then" "E2" "else" "E3" --> "if" "E1'" "then" "E2" "else" "E3"$, 
-    $Delta tack.r "E1" --> "E1'"$)) $
+    $Delta tack.r "if" "E1" "then" "E2" "else" "E3" --> "if" "V1" "then" "E2" "else" "E3"$, 
+    $Delta tack.r "E1" --> "V1"$)) $
 
 #let IF_T = $ #prooftree(evaluate("IF-T", 
     $Delta tack.r "if" "true" "then" "E2" "else" "E3" --> "E2"$)) $
@@ -135,14 +135,14 @@
 #let IF_F = $ #prooftree(evaluate("IF-F", 
     $Delta tack.r "if" "false" "then" "E2" "else" "E3" --> "E3"$)) $
 
-
 #let LET = $ #prooftree(evaluate("LET",
-    $Delta tack.r "let" x: T = "E1" "in" "E2" --> "let" x: T = "E1'" "in" "E2" $, 
-    $Delta tack.r "E1" --> "E1'"$,
+    $Delta tack.r "let" x: "T1" = "E1" "in" "E2" --> "let" x: "T1" = "V1" "in" "E2" $, 
+    $Delta tack.r "E1" --> "V1"$,
   )) $
 
 #let LET_FINAL = $ #prooftree(evaluate("LET-FINAL",
-    $Delta tack.r "let" x: T = "V" "in" "E2" --> "E2"[x := V]$, 
+    $Delta tack.r "let" x: T = "V1" "in" "E2" --> "V2"$, 
+    $ Delta, x := "V1" tack.r "E2" --> "V2" $
   )) $
 
 #let VAR = $ #prooftree(evaluate("VAR",
@@ -168,12 +168,12 @@
     $Delta tack.r [overline("V1")]::[overline("V2")] --> [overline("V1"), overline("V2")]$)) $
 
 #let CONC_L = $ #prooftree(evaluate("CONC-L", 
-    $Delta tack.r [overline("E1")]::[overline("E2")] --> [overline("E1'"), overline("E2")]$,
-    $Delta tack.r [overline("E1")] --> [overline("E1'")]$)) $
+    $Delta tack.r [overline("E1")]::[overline("E2")] --> [overline("V1"), overline("E2")]$,
+    $Delta tack.r [overline("E1")] --> [overline("V1")]$)) $
 
 #let CONC_R = $ #prooftree(evaluate("CONC-R", 
-    $Delta tack.r [overline("V")]::[overline("E2")] --> [overline("V"), overline("E2'")]$,
-    $Delta tack.r [overline("E2")] --> [overline("E2'")]$)) $
+    $Delta tack.r [overline("V")]::[overline("E2")] --> [overline("V"), overline("V2")]$,
+    $Delta tack.r [overline("E2")] --> [overline("V2")]$)) $
 
 #let FIRST_ARR = $ #prooftree(evaluate("FIRST-ARR", 
     $Delta tack.r "first"([ "V1", overline( "V2")])  --> "V1"$ )) $
@@ -184,7 +184,7 @@
   )) $
 
 #let FIRST_ARR_R = $ #prooftree(evaluate("FIRST-ARR-R", 
-    $Delta tack.r "first"([ "V", overline( "E2")])  --> "first"([ "V", overline( "V2'"))]$,
+    $Delta tack.r "first"([ "V1", overline( "E2")])  --> "first"([ "V1", overline( "V2'"))]$,
     $Delta tack.r overline("E2") --> overline("V2")$
   )) $
 
@@ -308,8 +308,8 @@
 )) $
 
 #let T_FIRST_ARR = $ #prooftree(typing("T-FIRST-ARR", 
-  $#t_context() "first"("E") : "T"$, 
-  $#t_context() "E" : [m, T]$,
+  $#t_context() "first"("E1") : "T1"$, 
+  $#t_context() "E1" : [m, "T1"]$,
 )) $
 
 #let T_REST_ARR = $ #prooftree(typing("T-REST-ARR", 
