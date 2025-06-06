@@ -55,6 +55,7 @@ Les sciences des données et les statistiques jouent un rôle de plus en plus im
 #include "3_Theorie/Broadcasting.typ"
 
 #include "5_Implémentation/Prolog.typ"
+#include "5_Implémentation/TypR.typ"
 
 #include "4_Usecase/Couches.typ"
 #include "4_Usecase/Réseaux_de_neurones.typ"

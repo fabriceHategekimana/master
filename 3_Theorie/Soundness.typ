@@ -250,3 +250,31 @@ Le théorème de la progression stipule que si une expression est bien typée, a
 
 *Si* $Phi, Gamma tack.r t : T$, *alors* $t in "Valeurs"$ *ou* $exists t', t --> t'$
 ]
+
+Faisons les preuves pour les termes qui ous intéressent (tableau multidimentionnels avec les booléens).
+
+==== Cas T-IF:
+
+$ "t" = "if" "E1" "then" "E2" "else" "E3" $
+
+$ "E1" : "bool", "E2" : "T", "E3" : "T" $
+
+La règle de typage est:
+
+#rules.T_IF 
+
+Par l'hypothèse d'induction, E1 est soit une valeur, soit il existe un terme E1' tel que E1 --> E1'. Si c'est une valeur, on sait que cette valeur sera soit true ou soit false, ce qui fait que les expresion IF-TRUE et IF-FALSE s'appliquent à t. Dans l'autre cas, si E1 --> E1', alors on a $"if" "E1'" "then" "E2" "else" "E3"$.
+
+==== Cas T-CONC:
+
+Dans le cas des tableau on sait que par définition, un tableau est une valeur. Soit cette expression:
+
+$ t = "conc"([overline("E1")], [overline("E2")]) $
+$ [overline("E1")] : ["m", "bool"], [overline("E2")] : ["n", "bool"] $
+
+Et sa règle de typage:
+
+#rules.T_CONC
+
+Si $overline("E1")$ et $overline("E2")$ sont des valeurs alors t peut être dérivé avec les règles 
+
