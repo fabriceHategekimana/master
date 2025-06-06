@@ -48,10 +48,16 @@
 #Definition()[Règles d'évaluation part.3
 #rules.VAR
 #rules.FUNC
+#rules.FUNC_APP_PAR
+#rules.FUNC_APP_EXP
 #rules.FUNC_APP
 #rules.ARR
 #rules.CONC
+#rules.FIRST_ARR_L
+#rules.FIRST_ARR_R
 #rules.FIRST_ARR
+#rules.REST_ARR_L
+#rules.REST_ARR_R
 #rules.REST_ARR
 ]
 

@@ -151,18 +151,24 @@
   )) $
 
 #let FUNC = $ #prooftree(evaluate("FUNC",
-    $Delta tack.r "func"< overline( "a")>( overline( "x":"P")) -> "T" { "E" } --> "func"<overline("a")>(overline("x":"P")) -> "T" { "E'" }$, 
-    $"E" --> "E'"$
+    $Delta tack.r "func"< overline( "a")>( overline( "x":"P")) -> "T" { "E" } --> "func"<overline("a")>(overline("x":"P")) -> "T" { "E" }$, 
   )) $
 
+#let FUNC_APP_EXP = $ #prooftree(evaluate("FUNC-APP-EXP", 
+    $Delta tack.r ("E1")< overline( "a:K")>( overline("V2")) --> ("func" < overline("a")>( overline( "x":"P")) -> "T " { "E3" })< overline( "a:K")>( overline("V2"))$, 
+    $Delta tack.r "E1" --> "func" < overline("a")>( overline( "x":"P")) -> "T " { "E3" }$)) $
+
+#let FUNC_APP_PAR = $ #prooftree(evaluate("FUNC-APP-PAR", 
+    $Delta tack.r ("E1")< overline( "a:K")>( overline("E2")) --> ("E1")< overline( "a:K")>( overline("V2"))$, 
+    $Delta tack.r overline("E2") --> overline("V2") $)) $
+
 #let FUNC_APP = $ #prooftree(evaluate("FUNC-APP", 
-    $Delta tack.r ("E1")< overline( "T")>( overline( "E")) --> "Ep"$, 
-    $Delta tack.r "E1" --> "func" < overline("a")>( overline( "x":"P")) -> "T" { "E" }$, 
-    $Delta, overline("x:E") tack.r "E" --> "E'"$)) $
+    $Delta tack.r ("func" < overline("a")>( overline( "x":"P")) -> "T " { "E1" })< overline( "a:K")>( overline("V2")) --> "V3"$, 
+    $Delta, overline("x:V2") tack.r "E1" --> "V3"$)) $
 
 #let ARR = $ #prooftree(evaluate("ARR", 
     $Delta tack.r [overline( "E1")] --> [overline( "V1")]$,
-    $Delta tack.r overline("E1") --> overline("V1")$)) $
+    $Delta tack.r forall e in overline("E1"), v in overline("V1"), e --> v$)) $
 
 #let CONC = $ #prooftree(evaluate("CONC", 
     $Delta tack.r [overline("V1")]::[overline("V2")] --> [overline("V1"), overline("V2")]$)) $
@@ -184,12 +190,22 @@
   )) $
 
 #let FIRST_ARR_R = $ #prooftree(evaluate("FIRST-ARR-R", 
-    $Delta tack.r "first"([ "V1", overline( "E2")])  --> "first"([ "V1", overline( "V2'"))]$,
+    $Delta tack.r "first"([ "V1", overline( "E2")])  --> "first"([ "V1", overline( "V2"))]$,
     $Delta tack.r overline("E2") --> overline("V2")$
   )) $
 
 #let REST_ARR = $ #prooftree(evaluate("REST-ARR", 
-    $Delta tack.r "rest"([ "V1", overline( "V2")])  --> overline("V2'")$
+    $Delta tack.r "rest"([ "V1", overline( "V2")])  --> overline("V2")$
+  )) $
+
+#let REST_ARR_L = $ #prooftree(evaluate("REST-ARR-L", 
+    $Delta tack.r "rest"([ "E1", overline( "E2")])  --> "rest"([ "V1", overline("V2")])$,
+    $Delta tack.r "E1"--> "V1"$
+  )) $
+
+#let REST_ARR_R = $ #prooftree(evaluate("REST-ARR-R", 
+    $Delta tack.r "rest"(["V1", overline("E2")])  --> "rest"(["V1", overline("V2")])$,
+    $Delta tack.r overline("E2") --> overline("V2")$
   )) $
 
 // typing
@@ -288,9 +304,9 @@
 )) $
 
 #let T_FUNC_APP = $ #prooftree(typing("T-FUNC-APP", 
-  $#t_context() ("E1")< overline("a:K")>(overline("E2")) : "T"$,
-  $#t_context() "E1" : <overline("a:K")>(overline("T")) -> "T"$,
-  $#t_context(kind: $"a:K"$) forall "t" in overline("T"), "e" in overline("E2"), ("t:T'" and "e:T'")$
+  $#t_context() ("E1")< overline("a:K")>(overline("E2")) : "T1"$,
+  $#t_context() "E1" : <overline("a:K")>(overline("T2")) -> "T1"$,
+  $#t_context(kind: $"a:K"$) forall "t" in overline("T2"), "e" in overline("E2"), "t:T","e:T"$
 )) $
 
 #let T_ARR = $ #prooftree(typing("T-ARR", 

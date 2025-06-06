@@ -39,7 +39,7 @@ Les règles d'évaluations correspondantes sont:
 #rules.IF_F
 #rules.IF_START
 
-En admettant que l'expression est de type T. On a 3 cas de figure:
+En admettant que l'expression est de type T2. On a 3 cas de figure:
 
 ==== Cas 1: E1 = true
 
@@ -93,28 +93,24 @@ Les règles d'évaluations sont:
 #rules.LET
 #rules.LET_FINAL
 
-Nous avons 3 cas:
+Si nous disons que le type de cette expression est U. Nous avons 3 cas:
 
-==== Cas 1: E1 -> V1
+==== Cas unique : E1 -> V1
 
-En apliquant l'expression LET, on obtient cette expression:
+En apliquant la règle LET, qui est la option valide, on obtient cette expression:
 
-$ "let" x: "T1" = "V1" "in" "E2" $
+$ "let" x: "T" = "V1" "in" "E2" $
 
-Par déduction `V1 : T1` donc l'expression respecte la règle de préservation.
+Par déduction de la préservation `V1 : T1`. On peut encore appliquer la règle LET-FINAL qui est la seule règle disponible. Ce qui nous donne l'expression finale:
 
-==== Cas 2: E2 -> V2
+$ "V2" $
 
-En apliquant l'expression LET-FINAL, on obtient cette expression:
-
-$ "let" x: "T1" = "V1" "in" "E2" $
-
-Par déduction `V1 : T1` donc l'expression respecte la règle de préservation.
+Par principe de préservation, la formule V2 est de type U. Donc l'expression respecte la règle de préservation.
 
 
 === Preuve: expression array
 
-Voyons les expression sur les tableaux (array):
+Voyons les expressions sur les tableaux (array):
 
 $ lang.array("E1") $
 
@@ -126,11 +122,11 @@ Sa règle d'évaluation est:
 
 #rules.ARR
 
-En l'appliquant à l'expression, nous obtenons:
+En supposant que l'expression est de type *[n, T]*, et en appliquant la règle T-ARR à l'expression, nous obtenons:
 
 $ lang.array("V1") $ 
 
-Si chaque expression du tableau respectent la règle de progression, alors une expression tableau la respecte aussi.
+Si chaque sous-expression respecte la règle de progression de l'expression globale, alors la progression est respectée par défaut (le tableau ne change pas de taille). 
 
 === Preuve: expression concat
 
@@ -148,26 +144,27 @@ Ses règles d'évaluations sont:
 #rules.CONC_R
 #rules.CONC
 
-En appliquant la règle T-CONC-L on obtient:
+=== Cas 1: cas général
+En assumant que les types des tableaux individuels sont `[E1]: [m, T]` et `[E2]: [n, T]`, on voit que la règle T-CONC-L Est la seule applicable dans ce context. On obtient donc:
 
 $ [overline("V1")] :: [overline("E2")] $
 
-Selon la preuve précédente sur les array, l'expression marche toujours. Lorsque nous appliquons la règle T-CONC-R, on obtient:
+Selon la preuve précédente sur les array, le type de l'expression est préservé. Vu que ce n'est pas une expression finale, nous avons à appliquer T-CONC-R qui est la seule règle possible, on obtient:
 
 
 $ [overline("V1")] :: [overline("V2")] $
 
-Ici encore, on reste avec un typage valide du coup on peut appliquer la règle T-CONC pour obtenir une valeur:
+Ici encore, on reste avec un typage préservé. On peut alors appliquer la règle T-CONC pour obtenir une valeur:
 
 $ [overline("V1"), overline("V2")] $
 
-Ici encore, l'expression a conservé son type et est considérée comme une valeur à part entière.
+Ici encore, l'expression a conservé son type et est considérée comme une valeur à part entière. On peut donc admettre que le théorème de préservation est respecté ici.
 
 === Preuve: expression first
 
 Une expression typique ressemble à ça: 
 
-$ "first"("E1", overline("E2")) $
+$ "first"(["E1", overline("E2")]) $
 
 Sa règle de typage ressemble à ça:
 
@@ -179,17 +176,70 @@ Ses règles d'évaluations sont:
 #rules.FIRST_ARR_R
 #rules.FIRST_ARR
 
-Comme l'expression n'est pas une valeur, on peut la faire progresser avec la règle FIRST-ARR-L, ce qui nous donne:
+Grâce à la preuve précédente, nous pouvons partir du principe que $["E1", overline("E2")]$ : [1+m, T]. Comme l'expression n'est pas une valeur, on peut la faire progresser avec la règle FIRST-ARR-L, ce qui nous donne:
 
 $ "first"(["V1", overline("E2")]) $
 
-De façon similaire, on peut toujours faire progresser l'expression qui n'est pas encore une valeur à l'aide de la règle FIRST-ARR-R, on a cette expression:
+On sait par les preuves précédentes que le type de l'expression a été préservé. De façon similaire, on peut toujours faire progresser l'expression qui n'est pas encore une valeur à l'aide de la règle FIRST-ARR-R. On obtient cette expression:
 
-$ "first"(["V1", overline("E2")]) $
+$ "first"(["V1", overline("V2")]) $
+
+Ici encore, le type de l'expression est préservé grâce à nos preuves précédentes. Ce n'est toujours pas un état final, donc on peut appliquer la seule règle déterministe applicable: FIRST-ARR. On finit avec cette expression finale.
+
+$ "V1" $
+
+Comme on sait que $["V1", overline("V2")] : [1+m, T]$ la règle T-FIRST-ARR va nous retourner le type T, ce qui respecte le théorème de préservation.
+
+=== Preuve: expression rest
+
+Une expression typique ressemble à ça: 
+
+$ "rest"(["E1", overline("E2")]) $
+
+Sa règle de typage ressemble à ça:
+
+#rules.T_REST_ARR
+
+Ses règles d'évaluations sont:
+
+#rules.REST_ARR_L
+#rules.REST_ARR_R
+#rules.REST_ARR
+
+Grâce aux preuves précédentes, nous pouvons partir du principe que $["E1", overline("E2")]$ : [1+m, T]. Comme l'expression n'est pas une valeur, on peut la faire progresser avec la règle REST-ARR-L, ce qui nous donne:
+
+$ "rest"(["V1", overline("E2")]) $
+
+On sait par les preuves précédentes que le type de l'expression a été préservé. De façon similaire, on peut toujours faire progresser l'expression qui n'est pas encore une valeur à l'aide de la règle REST-ARR-R. On obtient cette expression:
+
+$ "rest"(["V1", overline("V2")]) $
+
+Ici encore, le type de l'expression est préservé grâce à nos preuves précédentes. Ce n'est toujours pas un état final, donc on peut appliquer la seule règle déterministe applicable: REST-ARR. On finit avec cette expression finale.
+
+$ "V2" $
+
+Comme on sait que $["V1", overline("V2")] : [1+m, T]$ la règle T-REST-ARR va nous retourner le type [m, T], ce qui respecte le théorème de préservation.
 
 
-Par définition, les opérations peuvent toujours progresser grâce à leur définitions analogue respective. C'est aussi pareil pour les opération *first_arr* et *rest_arr* qui ont les règles FIRST-ARR et REST-ARR.
+==== Preuve application de fonction
 
+Nous pouvons représenter une application de fonction typique sous cette forme.
+
+$ ("E1")<overline("a:K")>(overline("E2")) $
+
+La règle de typage correspondante est:
+
+#rules.T_FUNC_APP
+
+La règle d'évaluation correspondante est:
+
+#rules.FUNC_APP_PAR
+#rules.FUNC_APP_EXP
+#rules.FUNC_APP
+
+En partant du principe que $"E1": <overline("a:K")>("T2") -> "T1"$, $overline("E2"): overline("T2")$ et toute l'expression est de type T1. on peut appliquer la seule règle valide FUNC-APP:
+
+// TODO
 
 ---
 
