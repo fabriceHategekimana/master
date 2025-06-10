@@ -155,7 +155,8 @@
   )) $
 
 #let FUNC_APP_EXP = $ #prooftree(evaluate("FUNC-APP-EXP", 
-    $Delta tack.r ("E1")< overline( "a:K")>( overline("V2")) --> ("func" < overline("a")>( overline( "x":"P")) -> "T " { "E3" })< overline( "a:K")>( overline("V2"))$, 
+    $"             " Delta tack.r ("E1")< overline( "a:K")>( overline("V2")) --> \
+    ("func" < overline("a")>( overline( "x":"P")) -> "T " { "E3" })< overline( "a:K")>( overline("V2"))$, 
     $Delta tack.r "E1" --> "func" < overline("a")>( overline( "x":"P")) -> "T " { "E3" }$)) $
 
 #let FUNC_APP_PAR = $ #prooftree(evaluate("FUNC-APP-PAR", 

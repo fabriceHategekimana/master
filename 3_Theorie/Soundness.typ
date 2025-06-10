@@ -237,9 +237,13 @@ La règle d'évaluation correspondante est:
 #rules.FUNC_APP_EXP
 #rules.FUNC_APP
 
-En partant du principe que $"E1": <overline("a:K")>("T2") -> "T1"$, $overline("E2"): overline("T2")$ et toute l'expression est de type T1. on peut appliquer la seule règle valide FUNC-APP:
+En partant du principe que $"E1": <overline("a:K")>("T2") -> "T1"$, $overline("E2"): overline("T2")$ et toute l'expression est de type T1. on peut appliquer la seule règle valide FUNC-APP-PAR. On obtient:
 
-// TODO
+$ ("E1")<overline("a:K")>(overline("V2")) $
+
+Le type est préservé par induction. Nous pouvons maintenant appliquer la règles FUNC-APP-EXP qui nous donnera cette expression:
+
+$ ("func"<overline("a")>(overline("x:P") -> T { "E1" }))<overline("a:K")>(overline("V2")) -> "V3" $
 
 ---
 
@@ -267,14 +271,39 @@ Par l'hypothèse d'induction, E1 est soit une valeur, soit il existe un terme E1
 
 ==== Cas T-CONC:
 
-Dans le cas des tableau on sait que par définition, un tableau est une valeur. Soit cette expression:
+Dans le cas des tableaux on sait que par définition, un tableau de valeur est une valeur. Si chaque membre suit la règle de progression alors ça marche. Soit cette expression:
 
 $ t = "conc"([overline("E1")], [overline("E2")]) $
 $ [overline("E1")] : ["m", "bool"], [overline("E2")] : ["n", "bool"] $
 
-Et sa règle de typage:
+Si $overline("E1")$ et $overline("E2")$ sont des valeurs alors on peut directement appliquer la règle CONC. Si ce n'est pas le cas on peut appliquer successivement les règles CONC-L et CONC-R avant.
 
-#rules.T_CONC
 
-Si $overline("E1")$ et $overline("E2")$ sont des valeurs alors t peut être dérivé avec les règles 
+==== Cas T-FIRST:
+
+Soit l'expression :
+
+$ t = "first"(["E1", overline("E2")]) $
+
+Si $"E1"$ et $overline("E2")$ sont des valeurs alors on peut appliquer la règle FIRST. Si ce n'est pas le cas, on applique d'abord les règles FIRST-L et FIRST-R.
+
+
+==== Cas T-REST:
+
+Soit l'expression :
+
+$ t = "rest"(["E1", overline("E2")]) $
+
+Si $"E1"$ et $overline("E2")$ sont des valeurs alors on peut appliquer la règle REST. Si ce n'est pas le cas, on applique d'abord les règles REST-L et REST-R.
+
+
+=== Cas FUNC-APP
+
+On sait qu'une fonction est une valeur, donc on a pas besoin de developper plus si ce n'est les paramètre et le corps de la fonction.
+
+Soit l'expression:
+
+$ t = ("E1")<a:K>(overline("E2")) $
+
+Dans ce cas présent, soit $"E1"$ et $overline("E2")$ Sont des valeurs et on applique la règle FUNC-APP, soit on peut appliquer successivement les règles FUNC-APP-PAR et FUNC-APP-EXP avant.
 
